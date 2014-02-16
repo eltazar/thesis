@@ -171,3 +171,106 @@ Sono inoltre elencati alcuni dei requisiti non funzionali:
 
 \end{center}
 
+\section{User Experience e usabilità}
+
+Oltre al consolidamento dei requisiti, le fasi di analisi e test (racchiuse in ogni iterazione della metodologia Agile) hanno permesso una graduale evoluzione del progetto, partito da uno stadio prototipale, anche sotto il punto di vista dell'usabilità e della user experience.
+
+I test e i collaudi sono stati eseguiti presentando il progetto su dispositivi Apple iPad a personale selezionato (per policy interne i collaudi sono avvenuti con personale interno all'azienda cliente) e sono stati discussi, raccolti e valutati i feedback ottenuti durante l'utilizzo del software.
+Questo approccio ha consentito l'immediata valutazione della qualità del software prodotto e di concentrarsi immediatamente sull'iterazione successiva per migliorarlo.
+
+\subsection{iOS Human Interface Guidelines}
+
+Le \emph{GUI} (graphic user interface) sono state realizzate considerando le linee guida fornite da Apple nelle \emph{Human Interface Guidelines}. Di seguito sono elencate alcune delle linee chiave adottate:
+
+\begin{itemize}
+ \item Integrità estetica: rappresenta quanto l'apparenza di un'interfaccia è coerente con le azioni e le funzionalità che offre
+ \item Consistenza: permettere all'utente di trasferire le proprie abilità e conoscenze da un'interfaccia di un'applicazione all'altra 
+ \item Feedback: fornire un feedback all'utente permette di avere una risposta immediata di un'azione intrapresa sull'interfaccia 
+\end{itemize}
+
+Oltre ai componenti standard offerti dall'\emph{SDK} iOS sono stati realizzati dei componenti grafici custom che hanno migliorato l'esperienza d'uso rispettando al tempo stesso le linee guida e il know how medio possduto dalle persone che utilizzano dispositivi mobili.  
+
+\subsection{Esempi di GUI e raffinamenti successivi}
+
+\subsubsection{Colori}
+Inizialmente si era scelto di utilizzare un tema di colori focalizzato sullo stesso colore del brand del committente e degli altri prodotti precedentemente realizzati(esempio: sito web, app smartphone, ecc\dots).
+
+I test con gli utenti hanno però evidenziato che temi di colori troppo scuri possono risultare pesanti alla vista e percepiti difficili da leggere. Si è scelto quindi di utilizzare un tema di colori chiaro, con gli elementi più importanti in contrasto di colore in modo tale da indurre un focus immediato e guidare l'utente durante le operazioni.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/bonificonero.png}
+\caption{Tema iniziale nero per la sezione bonifico}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/bonificogrigio.png}
+\caption{Tema chiaro per il bonifico nella sua versione finale, si noti il pulsante \emph{conferma} in risalto rispetto altri elementi della GUI}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/timeline3.png}
+\caption{Tema verde per il background della timeline}
+\end{figure}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/timelinebianca.png}
+\caption{Tema chiaro per il background della timeline e utilizzo del colore rosso e grigio per dare risalto ai saldi negativi e positivi dei movimenti}
+\end{figure}
+
+\newpage
+\subsubsection{Suggerimenti}
+
+Dai test effettuati si è notata la necessita di aiutare l'utente attraverso suggerimenti (\emph{hint}) visivi posti in particolari punti delle interfacce. L'utilizzo moderato di suggerimenti ha aumentato e migliorato la \emph{discoverability}. 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/timelinenohint.png}
+\caption{L'utente premeva il pulsante \emph{menu} per cercare di tornare alla schemata dei conti}
+\end{figure}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.30]{ux/timelinehint.png}
+\caption{Con una freccia che rappresentasse il significato di \emph{indietro} si è messo in risalto la relativa azione}
+\end{figure}
+
+\subsubsection{Feedback}
+Per indicare che, in risposta ad una azione dell'utente, è avvenuto un evento nel sistema  si è scelto di utilizzare feedback visivi e diversificati in base al tipo di azione intrapresa. 
+Le immagini mostrare di seguito rappresentano alcuni di questi feedback:
+
+componenti che indicano il caricamento durante task di lunga durata (esempio durante le chiamate http ai servizi)
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.30]{ux/loading.png}
+\caption{Esempi di loading view durante la chiamata ai servizi}
+\end{figure}
+
+l'inserimento di animazioni per passare da un'interfacca ad un'altra dopo l'azione eseguita dall'utente
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.30]{ux/animazione.png}
+\caption{Fotogramma preso durante un'animazione, rappresentante il cambio di interfaccia e del relativo contesto (colori, immagini, contenuti)}
+\end{figure}
+
+Elementi grafici che cambiano il loro aspetto o contenuto in risposta ad un'azione particolare
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.30]{ux/copia.png}
+\caption{Dopo l'azione di copia il relativo pulsante cambia per qualche frazione di secondo il suo contenuto in \emph{copiato!}}
+\end{figure}
+
+\newpage
+\subsubsection{Componenti personalizzati}
+L'utilizzo di componenti grafici personalizzati ha permesso di ottenere interfacce grafiche più ricche di funzioni e al tempo stesso intuitive e facili da usare. La figura \ref{fig:selettore} rappresenta un componente grafico che ha la funzione di poter selezionare attraverso un tap sui pulsanti o attraverso la gesture swipe un elemento tra una lista di oggetti (in questo caso di conti), tale componente è stato realizzato come libreria esterna, e quindi riusabile in diversi contesti della stessa applicazione.
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.50]{ux/selettore.png}
+
+\caption{Il componente custom \emph{selettore conti}}
+\label{fig:selettore}
+\end{figure}
+
+\subsubsection{Prestazioni}
+Per rendere più gradevole la user experience si è deciso di eseguire il \emph{caching}\footnote{Eseguire il salvataggio in ram o in memoria secondaria dei dati di frequente utilizzo, in modo tale da renderli disponibili per accessi futuri.} di alcuni dei dati scaricati dalla rete (come ad esempio la lista dei prodotti, o dati relativi al gestore, ecc\dots). Questa scelta ha quindi permesso di ridurre i tempi di accesso ad alcuni servizi migliorando le prestazioni del software in generale e l'interazione dell'utente con lo stesso.  
