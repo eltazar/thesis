@@ -237,33 +237,40 @@ Dai test effettuati si è notata la necessita di aiutare l'utente attraverso sug
 
 \subsubsection{Feedback}
 Per indicare che, in risposta ad una azione dell'utente, è avvenuto un evento nel sistema  si è scelto di utilizzare feedback visivi e diversificati in base al tipo di azione intrapresa. 
-Le immagini mostrare di seguito rappresentano alcuni di questi feedback:
+Di seguito sono riportati alcuni dei feedback utilizzati all'interno dell'applicazione:
 
-componenti che indicano il caricamento durante task di lunga durata (esempio durante le chiamate http ai servizi)
+\begin{itemize}
+ \item componenti che indicano il caricamento durante task di lunga durata (esempio durante le chiamate http ai servizi, figura \ref{fig:loading})
+ \item l'inserimento di animazioni per passare da un'interfacca ad un'altra dopo l'azione eseguita dall'utente (figura \ref{fig:animation})
+ \item elementi grafici che cambiano il loro stati in risposta a eventi particolari (figura \ref{fig:copy})
+
+\end{itemize}
+
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.30]{ux/loading.png}
 \caption{Esempi di loading view durante la chiamata ai servizi}
+\label{fig:loading}
 \end{figure}
 
-l'inserimento di animazioni per passare da un'interfacca ad un'altra dopo l'azione eseguita dall'utente
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.30]{ux/animazione.png}
-\caption{Fotogramma preso durante un'animazione, rappresentante il cambio di interfaccia e del relativo contesto (colori, immagini, contenuti)}
+\caption{Fotogramma preso durante un'animazione rappresentante il cambio di interfaccia e del relativo contesto (colori, immagini, contenuti)}
+\label{fig:animation}
 \end{figure}
 
-Elementi grafici che cambiano il loro aspetto o contenuto in risposta ad un'azione particolare
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.30]{ux/copia.png}
 \caption{Dopo l'azione di copia il relativo pulsante cambia per qualche frazione di secondo il suo contenuto in \emph{copiato!}}
+\label{fig:copy}
 \end{figure}
 
 \newpage
 \subsubsection{Componenti personalizzati}
-L'utilizzo di componenti grafici personalizzati ha permesso di ottenere interfacce grafiche più ricche di funzioni e al tempo stesso intuitive e facili da usare. La figura \ref{fig:selettore} rappresenta un componente grafico che ha la funzione di poter selezionare attraverso un tap sui pulsanti o attraverso la gesture swipe un elemento tra una lista di oggetti (in questo caso di conti), tale componente è stato realizzato come libreria esterna, e quindi riusabile in diversi contesti della stessa applicazione.
+L'utilizzo di componenti grafici personalizzati ha permesso di ottenere interfacce grafiche più ricche di funzioni e al tempo stesso intuitive e facili da usare. La figura \ref{fig:selettore} rappresenta un componente grafico che ha la funzione di poter selezionare attraverso un tap sui pulsanti o attraverso la gesture swipe un elemento in una lista di oggetti (in questo caso di conti); tale componente è stato realizzato come libreria esterna, e quindi riusabile in diversi contesti della stessa applicazione.
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.50]{ux/selettore.png}
