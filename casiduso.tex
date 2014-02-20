@@ -10,16 +10,26 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
 
  Nei prossimi paragrafi saranno mostrati alcuni dei casi d'uso modellati durante la fase di analisi.
  \section{Diagrammi dei casi d'uso}
- \subsection{Caso d'uso 1\_0 Ricarica telefonica}
+ 
+ \subsection{Caso d'uso: Ricarica telefonica}
 	\begin{figure}[!htbp]
 	  \centering
 	  \includegraphics[scale=0.60]{casi_uso/ricarica.png}
 	\end{figure}
- 
- 
+	
+  \subsection{Caso d'uso: Ricarica telefonica}
+ 	\begin{figure}[!htbp]
+	  \centering
+	  \includegraphics[scale=0.60]{casi_uso/conti.png}
+	\end{figure}
+	
+\newpage
+
  \section{Specifica dei casi d'uso}
+ 
  \subsection{Caso d'uso: Ricarica telefonica}
 
+ Le tabelle..... mostrano i casi d'uso relativi all'operazione di ricarica telefonica, nel caso in cui l'utente decida di ricaricare un numero di telefono associato ad un contatto presente nella rubrica del dispositivo.
 \begin{center}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
@@ -30,7 +40,7 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
     \textbf{Postcondizioni di fallimento}   &  Il sistema non ha registrato l'operazione\\\hline
     \textbf{Scenario} &  \\\hline
     & \begin{enumerate}
-       \item L'utente seleziona l'operazione di ricarica telefonica
+       \item L'utente seleziona l'operazione di ricarica telefonica \label{item:sel8}
        \item \texttt{Include} UC\_1\_1 \emph{Visualizza lista beneficiari}
        \item \texttt{Include} UC\_1\_2 \emph{Visualizza lista conti di addebito}
        \item \texttt{Include} UC\_1\_3 \emph{Visualizza lista operatori}
@@ -53,23 +63,9 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
       \end{enumerate}\\\hline
       \textbf{Scenari alternativi} &  \\\hline
      & \begin{itemize}
-       \item  \ref{item:sel1}, \ref{item:sel2}, \ref{item:sel3}, \ref{item:sel4}, \ref{item:sel5}, \ref{item:sel6} L'utente annulla operazione
+       \item  \ref{item:sel8} L'utente annulla operazione
        \item Il caso d'uso termina
       \end{itemize}\\\hline
-    \textbf{Scenari di errore} &  \\\hline
-    & \begin{enumerate}
-    \setcounter{enumi}{6}
-       \item L'utente seleziona una compagnia telefonica errata
-       \item Il sistema mostra messaggio di errore
-       \item Il caso d'uso riprende dal punto \ref{item:compagnia}
-      \end{enumerate}\\\hline
-           & \begin{enumerate}
-    \setcounter{enumi}{13}
-       \item Il sistema non valida le credenziali
-       \item Il sistema comunica tipo di errore
-       \item Il caso d'uso riprende dal punto \ref{item:credenziali}
-      \end{enumerate}\\\hline
-
      \end{longtable}
 \end{center}
 
@@ -203,12 +199,7 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
      \end{longtable}
 \end{center}
 
- \subsection{Caso d'uso 1\_0 Ricarica telefonica}
-	\begin{figure}[!htbp]
-	  \centering
-	  \includegraphics[scale=0.60]{casi_uso/conti.png}
-	\end{figure}
-\subsection{Caso d'uso: Consultare lista conti e carte}
+ \subsection{Caso d'uso: Visualizza lista conti e carte e Visualizza lista movimenti}
 
 \begin{center}
      \begin{longtable}{{ | l | p{8cm} |}}
