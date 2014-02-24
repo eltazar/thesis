@@ -1,1 +1,32 @@
 \chapter{Architettura software}
+
+
+\section{Architettura generale}
+
+Il progetto è stato realizzato seguendo un'architettura software client-server. In questa architettura i componenti principali sono: il client rappresentato dall'applicazione iPad oggetto di questo documento, e il lato server scomposto in \emph{middleware} e i sistemi messi a disposizione dal cliente (l'istituto bancario).
+
+Il middleware opera da intermediario tra i servizi bancari e l'applicazione. Tale componente ha il compito di ricevere le richieste dal client, di sottomettere a sua volta queste richieste ai servizi lato banca e di ritornare i dati al client opportunamente formattati.
+
+Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono eseguite seguendo un'architettura \emph{RESTFUL}  che prevede richieste \emph{HTTP} (POST, GET, PUT, DELETE). Le risposte fornite dal middleware verso il client sono costruite in formato \emph{JSON}.
+
+\section{Architettura applicazione}
+
+L'applicazione è stata progettata usando il design pattern \emph{MVC} (Model-View-Controller). In tale pattern ogni oggetto dell'applicazione assolve uno dei seguenti ruoli:
+\begin{itemize}
+ \item Model: gli oggetti di tipo model hanno il compito di incapsulare i dati specifici a un'applicazione e di definire le logiche per modificare e processare tali dati
+ \item View: sono gli oggetti dell'applicazione visibili all'utente. Tali oggetti hanno il compito di visualizzare i dati dell'applicazione e di permetterne l'interazione (esempio la modifica)
+ \item Controller: è un oggetto che opera da intermediario tra la view e uno o più model dell'applicazione. Tali oggetti hanno quindi la funzione di comunicare i cambiamenti tra le view e i model, e viceversa.
+\end{itemize}
+
+L'utilizzo del pattern MVC permette una migliore estensione del codice, di costruire componenti riusabili e migliorare la definizione delle interfacce.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/mvc.png}
+\caption{Schema del pattern MVC}
+\label{fig:selettore}
+\end{figure}
+
+Nei prossimi paragrafi verranno descritte le classi principali del progetto.
+
+\section{Diagramma delle classi}
