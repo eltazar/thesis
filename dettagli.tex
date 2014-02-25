@@ -2,6 +2,11 @@
 
 In questo capitolo verranno descritti i pattern principali usati durante la progettazione e lo sviluppo del software e le motivazioni che hanno portato a tali scelte.
 
+\section{BaseViewController}
+Il \texttt{BaseViewController} è il controller principale dal quale gli altri controller ereditano le funzionalità e proprietà generiche. Tale controller si occupa della creazione e visualizzazione degli  elementi grafici comuni a tutte le interfacce (ad esempio la navigation bar personalizzata) e delle logiche necessarie ad ogni controller che lo specializza.
+
+A titolo esemplificativo uno de
+
 \section{Custom container controller}
 Il \emph{Container View Controller} è un pattern di progettazione iOS che permette di scomporre le applicazioni in parti più piccole e semplici, ognuna delle quali è dedicata ad assolvere un determinato compito. I container controller sono usati quindi come intermediari tra queste diverse parti (\emph{child controller}) allo scopo di fornire un'interfaccia che sia coerente con il contesto in cui i controller figli operano.
 
