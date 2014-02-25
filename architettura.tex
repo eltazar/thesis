@@ -41,9 +41,10 @@ Nei prossimi paragrafi verranno descritte le classi principali del progetto.
 \section{Diagramma delle classi}
 
 \subsection{Connessione ai servizi}
+\label{parag:networking}
 La parte relativa alla gestione delle chiamate ai servizi è stata realizzata implementando delle classi \emph{singleton}. Tali classi estendono la libreria di terze parti \texttt{AFNetworking} che opera da wrapper sulle tecnologie di comunicazione messe a disposizione dall'SDK iOS (Foundation URL Loading System). 
 
-Utilizzare una libreria coome AFNetworking ha permesso di ridurre i tempi di sviluppo e di sfruttare le potenzialità offerte dalle sue API come: la serializzazione e deserializzazione dei dati, la possibilità di effettuare richieste HTTP asincrone, una gestione efficiente delle code, la gestione di sessioni, ecc\dots.  
+Utilizzare una libreria come AFNetworking ha permesso di ridurre i tempi di sviluppo e di sfruttare le potenzialità offerte dalle sue API come: la serializzazione e deserializzazione dei dati, la possibilità di effettuare richieste HTTP asincrone, una gestione efficiente delle code, la gestione di sessioni, ecc\dots.  
 
 \begin{figure}[!htbp]
 \centering
@@ -63,5 +64,32 @@ Per migliorare le prestazioni e limitare il traffico di rete generato durante l'
 \end{figure}
 
 \subsection{Autenticazione e sicurezza dei dati}
+L'applicazione prevede un sistema di autenticazione ai servizi basata su livelli. In particolare sono previsti tre livelli di autenticazione:
+\begin{itemize}
+ \item primo livello: è il livello associato a un utente che non ha ancora effettuato il login
+ \item secondo livello: è il livello associato ad un utente che ha precedentemente effettuato il login, ha scelto di ricordare le credenziali e che ha momentaneamente sospeso l'utilizzo dell'applicazione. Questo livello permette all'utente di accedere a un gruppo ristretto di funzionalità nel momento in cui riprenderà l'utilizzo dell'applicazione
+ \item terzo livello: è il livello associato ad un utente che ha precedentemente effettuato il login e che permette l'accesso a tutte le funzionalità previste dall'applicazione. Questo livello permane fino a quando l'utente non richiede esplicitamente il logout o sospende l'applicazione
+\end{itemize}
 
-Uno degli aspetti fondamentali considerati durante la progettazione  
+L'autenticazione ai servizi è a carico delle classi descritte nel paragrafo \ref{parag:networking}. Questa operazione restituisce in output i dati confidenziali dell'utente che saranno gestiti dalle classi adibite alla sicurezza.
+
+A tal fine è stato implementato un oggetto singleton, il \texttt{SecurityManager}, che ha la responsabilità di stabilire il livello di autenticazione in risposta agli eventi che occorrono all'interno dell'applicazione e di gestire il salvataggio e il recupero dei dati confidenziali dell'utente (come le informazioni sul token, sul numero utente, ecc\dots). Tale classe utilizza la libreria di terze parti \texttt{JNKeychain} che estende le funzioni messe a disposizione dell'SDK iOS, in particolare quelle relative al \emph{Keychain}. 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/securityClass.png}
+\caption{Diagramma delle classi relative alla sicurezza}
+\end{figure}
+
+\subsection{Controller principali}
+Di seguito è riportato il diagramma delle classi rappresentanti i controller principali creati durante la progettazione e lo sviluppo. Per semplicità di esposizione sono stati rappresentati solo i nomi dei controller e le relazioni tra essi.
+
+\newpage
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/controllersClass.png}
+\caption{Diagramma delle classi controller}
+\end{figure}
+\begin{landscape}
+\end{landscape}
