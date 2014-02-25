@@ -1,6 +1,6 @@
 \chapter{Dettagli implementativi}
 
-In questo capitolo verranno descritti i pattern principali usati durante la progettazione e lo sviluppo del softaware e le motivazioni che hanno portato a tali scelte.
+In questo capitolo verranno descritti i pattern principali usati durante la progettazione e lo sviluppo del software e le motivazioni che hanno portato a tali scelte.
 
 \section{Custom container controller}
 Il \emph{Container View Controller} è un pattern di progettazione iOS che permette di scomporre le applicazioni in parti più piccole e semplici, ognuna delle quali è dedicata ad assolvere un determinato compito. I container controller sono usati quindi come intermediari tra queste diverse parti (\emph{child controller}) allo scopo di fornire un'interfaccia che sia coerente con il contesto in cui i controller figli operano.
@@ -16,7 +16,7 @@ L'utilizzo di tale pattern ha permesso durante la progettazione dell'applicazion
 
 \subsection{MiaSituazioneContainerController}
 \label{parag:miasituaz}
-Uno dei requisiti funzionali principali dell'applicazione prevede la visualizzazione dei conti e carte di un utente e l'eventuale visualizzazionei dei movimenti ad essi relativi.
+Uno dei requisiti funzionali principali dell'applicazione prevede la visualizzazione dei conti e carte di un utente e l'eventuale visualizzazione dei movimenti ad essi relativi.
 
 La parte dell'architettura realizzata per realizzare tali funzionalità è composta dalla seguente gerarchia di container e child controller:
 
@@ -68,7 +68,7 @@ La comunicazione tra i container e i suoi figli è stata realizzata in modo tale
 
 \begin{itemize}
  \item message passing: realizza la comunicazione in avanti tra un container e un child controller mediante opportune interfacce messe a disposizione dai child contoller
- \item pattern delegate: realizza la comunicazione all'indietro da un child ad un container controller mediante la dichiarazione di opportuni protocolli (\emph{protocol} nella tecnlogia iOS) da parte dei child controller. I container controllor vengono quindi dichiarati conformi a tali protocolli e posti come \emph{delegate} ( oggetti che operano come aiutanti adibiti all'esecuzione di compiti particolari)
+ \item pattern delegate: realizza la comunicazione all'indietro da un child ad un container controller mediante la dichiarazione di opportuni protocolli (\emph{protocol} nella tecnologia iOS) da parte dei child controller. I container controllor vengono quindi dichiarati conformi a tali protocolli e posti come \emph{delegate} ( oggetti che operano come aiutanti adibiti all'esecuzione di compiti particolari)
 \end{itemize}
 
 L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'architettura modulare composta da componenti specializzati facilmente estendibili e riusabili.
