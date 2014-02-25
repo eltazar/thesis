@@ -66,10 +66,17 @@ Per migliorare le prestazioni e limitare il traffico di rete generato durante l'
 \subsection{Autenticazione e sicurezza dei dati}
 L'applicazione prevede un sistema di autenticazione ai servizi basata su livelli. In particolare sono previsti tre livelli di autenticazione:
 \begin{itemize}
- \item primo livello: è il livello associato a un utente che non ha ancora effettuato il login
- \item secondo livello: è il livello associato ad un utente che ha precedentemente effettuato il login, ha scelto di ricordare le credenziali e che ha momentaneamente sospeso l'utilizzo dell'applicazione. Questo livello permette all'utente di accedere a un gruppo ristretto di funzionalità nel momento in cui riprenderà l'utilizzo dell'applicazione
- \item terzo livello: è il livello associato ad un utente che ha precedentemente effettuato il login e che permette l'accesso a tutte le funzionalità previste dall'applicazione. Questo livello permane fino a quando l'utente non richiede esplicitamente il logout o sospende l'applicazione
+ \item autenticazione di livello zero: è il livello associato a un utente che non ha ancora effettuato il login
+ \item autenticazione di primo livello: è il livello associato ad un utente che ha precedentemente effettuato il login, ha scelto di ricordare le credenziali e che ha momentaneamente sospeso l'utilizzo dell'applicazione. Questo livello permette all'utente di accedere a un gruppo ristretto di funzionalità nel momento in cui riprenderà l'utilizzo dell'applicazione
+ \item autenticazione di secondo livello: è il livello associato ad un utente che ha precedentemente effettuato il login e che permette l'accesso a tutte le funzionalità previste dall'applicazione. Questo livello permane fino a quando l'utente non richiede esplicitamente il logout o sospende l'applicazione
 \end{itemize}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/stati.png}
+\caption{Diagramma degli stati di autenticazione}
+\end{figure}
+
 
 L'autenticazione ai servizi è a carico delle classi descritte nel paragrafo \ref{parag:networking}. Questa operazione restituisce in output i dati confidenziali dell'utente che saranno gestiti dalle classi adibite alla sicurezza.
 
