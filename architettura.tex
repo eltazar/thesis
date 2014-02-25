@@ -40,4 +40,28 @@ Nei prossimi paragrafi verranno descritte le classi principali del progetto.
 
 \section{Diagramma delle classi}
 
+\subsection{Connessione ai servizi}
+La parte relativa alla gestione delle chiamate ai servizi è stata realizzata implementando delle classi \emph{singleton}. Tali classi estendono la libreria di terze parti \texttt{AFNetworking} che opera da wrapper sulle tecnologie di comunicazione messe a disposizione dall'SDK iOS (Foundation URL Loading System). 
+
+Utilizzare una libreria coome AFNetworking ha permesso di ridurre i tempi di sviluppo e di sfruttare le potenzialità offerte dalle sue API come: la serializzazione e deserializzazione dei dati, la possibilità di effettuare richieste HTTP asincrone, una gestione efficiente delle code, la gestione di sessioni, ecc\dots.  
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/networkingClass.png}
+\caption{Diagramma delle classi per le connessioni di rete}
+\end{figure}
+
 % i servizi sono separati da quelli di autenticazione perchè gli  standard oauth richiedono la separazione i sottodimini diversi.
+
+\subsection{Caching dei dati}
+Per migliorare le prestazioni e limitare il traffico di rete generato durante l'utilizzo dell'applicazione è stato implementato un meccanismo di caching dei dati che consente di salvare in memoria primaria i dati necessari all'applicazione durante una sessione di utilizzo. 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.70]{architettura/cacheClass.png}
+\caption{Diagramma delle classi per il caching dei dati}
+\end{figure}
+
+\subsection{Autenticazione e sicurezza dei dati}
+
+Uno degli aspetti fondamentali considerati durante la progettazione  
