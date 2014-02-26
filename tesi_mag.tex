@@ -16,18 +16,20 @@
 \usepackage{pdflscape}
 \usepackage{enumerate}
 \usepackage{lscape}
+\usepackage[]{algorithm2e}
 \hypersetup{pdftitle={Titolo della tesi},pdfauthor={Mario Greco}}
 
 % Remove in a normal thesis
 \usepackage{lipsum}
 \usepackage{curve2e}
 \usepackage{setspace}
-
+\usepackage{xcolor}
+\usepackage{listings}
 \definecolor{gray}{gray}{0.4}
 \newcommand{\bs}{\textbackslash}
 
 % Commands for the titlepage
-\title{Titolo della tesi \\ bla bla bla}
+\title{Progettazione e sviluppo di un'applicazione di Home Banking in ambiente iOS}
 \author{Mario Greco}
 \IDnumber{984280}
 \course{Informatica}
@@ -46,7 +48,11 @@
 \versiondate{\today}
 
 
-
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-4pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{frame=lrb,xleftmargin=\fboxsep,xrightmargin=-\fboxsep}
 \begin{document}
 \onehalfspace 
 \frontmatter
