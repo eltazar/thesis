@@ -2,11 +2,6 @@
 
 In questo capitolo verranno descritti i pattern principali usati durante la progettazione e lo sviluppo del software e le motivazioni che hanno portato a tali scelte.
 
-\section{BaseViewController}
-Il \texttt{BaseViewController} è il controller principale dal quale gli altri controller ereditano le funzionalità e proprietà generiche. Tale controller si occupa della creazione e visualizzazione degli  elementi grafici comuni a tutte le interfacce (ad esempio la navigation bar personalizzata) e delle logiche necessarie ad ogni controller che lo specializza.
-
-A titolo esemplificativo uno de
-
 \section{Custom container controller}
 Il \emph{Container View Controller} è un pattern di progettazione iOS che permette di scomporre le applicazioni in parti più piccole e semplici, ognuna delle quali è dedicata ad assolvere un determinato compito. I container controller sono usati quindi come intermediari tra queste diverse parti (\emph{child controller}) allo scopo di fornire un'interfaccia che sia coerente con il contesto in cui i controller figli operano.
 
@@ -85,3 +80,206 @@ L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'a
 \caption{Esempio di comunicazione da un container padre a un child controller}
 \label{fig:movimenticontainer}
 \end{figure}
+
+\section{Posizionamento di oggetti in uno spazio cartesiano}
+All'interno dell'applicazione è stato realizzato un algoritmo per il posizionamento di oggetti grafici in uno spazio cartesiano. Tali oggetti sono visualizzati come circonferenze all'interno dell'interfaccia grafica e sono utilizzati per riassumere i dati di un conto corrente o di una carta di credito (come importo, tipo di conto, ecc\dots).
+
+La visualizzazione delle circonferenze ha dovuto rispettare i seguenti vincoli:
+
+\begin{itemize}
+ \item  devono esser visualizzate il più possibile una vicino all'altra
+ \item  non si devono sovrapporre
+ \item  non  devono uscire da nessun lato dello schermo 
+ \item 	devono entrare esser tutte visibili
+\end{itemize}
+
+\subsection{Realizzazione}
+
+Per non bloccare l'interfaccia grafica durante il calcolo, l'esecuzione dell'algoritmo di posizionamento avviene in un thread asincrono così da non occupare il \emph{main thread} e lasciare quindi la libertà all'utente di continuare ad utilizzare l'applicazione.
+
+Nei prossimi paragrafi saranno illustrati gli oggetti e le logiche utilizzate per realizzare l'algoritmo e rispettare i vincoli descritti precedentemente.
+
+\subsubsection{Bubble}
+
+La documentazione Apple suggerisce di non effettuare il disegno e l'allocazione di oggetti grafici (oggetti che estendono la classe \texttt{UIView}) al di fuori del main thread, in quanto può portare a problemi di thread safety. Per questo motivo è stata realizzata la classe \texttt{Bubble} che ha il compito di astrarre un oggetto view e di incapsulare solo le sue proprietà geometriche (come la dimensione, l'origine, il centro, ecc\dots). L'algoritmo sfrutterà quindi gli oggetti Bubble per effettuare il calcolo del posizionamento nello spazio.
+
+Per decidere in quale punto dello spazio posizionare una circonferenza e per decidere in quale punto su di essa posizionare un vicino, ogni oggetto Bubble calcola le seguenti proprietà:
+\begin{itemize}
+ \item frame: rappresenta l'origine e la dimensione di una bubble
+ \item center: le coordinate del centro di una bubble
+ \item radius: il raggio
+ \item anchorPoints: un array di oggetti \texttt{AnchorPoint}
+\end{itemize}
+
+\subsubsection{AnchorPoint}
+
+La classe \texttt{AnchorPoint} rappresenta le coordinate $(x,y)$ di un punto su una circonferenza. Tale oggetto è utilizzato per decidere in quale posizione su di una bubble aggiungere un'altra bubble (figura \ref{fig:anchor}). 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.4]{dettagli/anchor.png}
+\caption{Esempio di AnchorPoint su una circonferenza}
+\label{fig:anchor}
+\end{figure}
+
+\subsubsection{Algoritmo}
+Di seguito saranno descritte in pseudo-codice le procedure che compongono l'algoritmo di posizionamento.
+\\\\
+La procedura \ref{algo:1} calcola la dimensione di ogni bubble in base al saldo di un conto e controlla se nell'area delimitata dall'interfaccia tali bubble entrano, altrimenti esegue un ridimensionamento e riesegue ricorsivamente il calcolo.
+\begin{lstlisting}[label=algo:1,caption=startBubblesAlgorithm]
+
+startBubblesAlgorithm(float resizePercent){
+    
+    for each(conto in contiList){
+	bubbleSize = calculateBubbleSizeForConto(conto)
+	add bubble to sizesArray
+    }
+  
+    bool isGood = checkArea(sizesArray)
+    
+    if(isGood){
+      createBubbles
+      placeBubblesInSpace
+    }
+    else{
+	startBubblesAlgorithm(0.1)
+    }
+}
+
+
+\end{lstlisting}
+
+La procedura \ref{algo:2} esegue il calcolo delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. Questo calcolo viene ripetuto fino a quando non si trova una disposizione ideale delle circonferenze. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
+
+\begin{lstlisting}[label=algo:2,caption=placeBubblesInSpace]
+
+placeBubblesInSpace{
+    
+    bool finished = false
+    
+    while(finished == false){
+    
+	//calcola la posizione per ogni Bubble
+	calculateOriginForBubble
+	
+	if(recalculate){
+	
+	    //pulisce le strutture dati 
+			//create dai calcoli precedenti
+	    cleanOldData 
+	    //ricrea gli oggetti Bubble
+			//con ridimensionamento
+	    resizeValue += 0.1
+	    createBubbles 
+	}
+	else{
+	  finshed = true;
+	}
+    }
+    
+    //disegna sull'interfaccia le BubbleView
+			//ottenute dalle Bubble
+    drawBubbleViewInSpace
+}
+
+
+\end{lstlisting}
+
+
+La procedura \texttt{calculateOriginForBubble} si occupa di posizionare la prima Bubble al centro dello schermo. Nei passi successivi per ogni Bubble già posizionata considera i suoi AnchorPoint e controlla se ne esiste uno utilizzabile: cioè un punto su una Bubble tale che affiancandogli un'altra Bubble quest'ultima non esce dai lati dallo schermo o si sovrapponga alle altre già posizionate. Se tale punto esiste la Bubble viene considerata come \emph{posizionata}, altrimenti vengono controllati iterativamente gli AnchorPoint di tutte le altre Bubble già posizionate.
+
+Questo meccanismo permette di sfruttare tutta l'area a disposizione ricontrollando iterativamente gli spazi che avanzano dopo il posizionamento di una Bubble, in modo tale da ottenere una distribuzione uniforme delle circonferenze.
+
+\begin{lstlisting}[label=algo:3,caption=calculateOriginForBubble,breaklines=true,  commentstyle=\color{CadetBlue}]
+calculateOriginForBubble{
+
+    for each(newBubble in bubbles){
+
+        BOOL isFound = NO;
+
+        //se prima bolla
+        if(newBubble isFirst){
+            add newBubble to placedBubbles
+            continue;
+        }
+
+        BOOL intersect = NO;
+
+        //cerco posizione per newBubble tra gli anchor point delle bubble già posizionate
+        for(bubble in placedBubbles){
+
+            //controllo anchorPoint di bubble
+            for each (anchorPoint in bubble){
+
+                //un punto di ancoraggio
+                anchorPoint = bubble.getRandomAnchorPoint
+
+                if(anchorPoint.isBusy){
+		    //se occupato salto ciclo
+                    continue;
+                }
+
+                intersect = NO;
+
+                //provo con questo punto
+                //calcolo il centro dove posizionare la newBubble
+                //rispetto l'anchorPoint selezionato e il centro ad esso relativo
+                 aCenter = calculateCenter:bubble.center,point.angle,newBubble.radius + bubble.radius)
+
+                newBubble.center = aCenter;
+
+                //salto se con questa posizione si esce sotto, sopra o a sinistra dello schermo
+                if(exit from screen){
+                    continue;
+                }
+
+                //termino se esce a destra dello schermo
+                if(aCenter.x + newBubble.radius > screenFframe.size.width)
+                    recalculate = YES;
+                    return;
+                }
+
+                //controllo se newBubble si interseca con le altre view già posizionate
+                for(bubble2 in placedBubbles){
+
+                    if (bubble != bubble2){
+	    
+                        distance = distanceFrom:bubble2.center,aCenter);
+                        extendedRadius = newBubble.radius + bubble2.radius;
+
+                        //se distanza tra due centri è minore della somma dei raggi, si intersecano
+                        if( distance < extendedRadius){
+                            //si intersecano
+                            intersect = YES;
+                            break;
+                        }
+                    }
+                }
+                
+                //se finito ciclo allora newBubble non si interseca con nessun'altra bubble
+                if(intersect == false){
+                    //segno come occupato l'anchor point in esame
+                    point.isBusy = true;
+                    isFound = true;
+                     //interrompo controllo degli altri anchor point
+                    break;
+                }
+            }
+
+            if(isFound ){
+                //interrompe ricerca sulla prossima bolla tra quelle inserite
+                break;
+            }
+        }
+
+        if(!isFound){
+            //Arria qui se ha finito tutti gli anchor point di tutte le bolle già inserite.
+            recalculate = YES;
+            return;
+        }
+
+        //se arrivato qui aggiungo newBubble alle già  posizionate
+        add newBubble to placedBubbles
+    }
+}
+\end{lstlisting}
