@@ -90,6 +90,12 @@ A tal fine è stato implementato un oggetto singleton, il \texttt{SecurityManage
 
 \subsection{Controller principali}
 Di seguito è riportato il diagramma delle classi rappresentanti i controller principali creati durante la progettazione e lo sviluppo. Per semplicità di esposizione sono stati rappresentati solo i nomi dei controller e le relazioni tra essi.
+\newline
+
+A titolo esemplificativo nel diagramma si può notare che il \texttt{BaseViewController} è il controller principale dal quale gli altri controller ereditano le funzionalità e proprietà generiche. Tale controller si occupa della creazione e visualizzazione degli  elementi grafici comuni a tutte le interfacce (ad esempio la navigation bar personalizzata) e delle logiche necessarie ad ogni controller che lo specializza.
+
+In particolare uno dei compiti principali di questo controller è quello di creare il controller che gestisce l'interfaccia e la logica per il login ai servizi (\texttt{LoginViewController}) e di implementare il protocollo \texttt{LoginViewControllerProtocol} dichiarato dallo stesso LoginViewController. Sarà quindi compito del LoginViewController  lanciare il processo di login e comunicare al BaseViewController l'esito dell'operazione attraverso il protocollo descritto precedentemente; così facendo il BaseViewController sarà in grado di effettuare l'aggiornamento dello stato dell'interfaccia.
+
 
 \newpage
 
