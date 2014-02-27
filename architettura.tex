@@ -17,7 +17,6 @@ Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono 
 \label{fig:arch}
 \end{figure}
 
-
 \section{Architettura applicazione}
 
 L'applicazione è stata progettata usando il design pattern \emph{MVC} (Model-View-Controller, figura \ref{fig:mvc}). In tale pattern ogni oggetto dell'applicazione assolve uno dei seguenti ruoli:
@@ -39,6 +38,16 @@ L'utilizzo del pattern MVC permette una migliore estensione del codice, di costr
 Nei prossimi paragrafi verranno descritte le classi principali del progetto.
 
 \section{Diagramma delle classi}
+
+
+\subsection{Business Logic}
+Di seguito sono rappresentate una parte delle classi della \emph{business logic}.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.60]{architettura/businessLogicClass.png}
+\caption{Classi della business logic}
+\label{fig:businessLogic}
+\end{figure}
 
 \subsection{Connessione ai servizi}
 \label{parag:networking}
