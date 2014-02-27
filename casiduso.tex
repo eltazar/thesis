@@ -1,5 +1,5 @@
 \chapter{Casi d'suo}
-I casi d'uso permettono di modellare il comportamento del sistema e descrivere i requisiti funzionali in linguaggio naturale. Grazie a questi modelli è quindi possibile rappresentare il comportamento esterno del sistema, visto come una black-box, dal punto di vista di un attore.
+I casi d'uso permettono di modellare il comportamento del sistema e descrivere i requisiti funzionali in linguaggio naturale. Grazie a questi modelli è quindi possibile rappresentare il comportamento esterno del sistema, visto come una black-box, dal punto di vista di un'attore.
 
 Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser rappresentati mediante diagrammi. In tali diagrammi troviamo le segunti entità:
  \begin{itemize}
@@ -9,28 +9,33 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
  \end{itemize}
 
  Nei prossimi paragrafi saranno mostrati alcuni dei casi d'uso modellati durante la fase di analisi.
+ \newpage
+ 
  \section{Diagrammi dei casi d'uso}
  
  \subsection{Caso d'uso: Ricarica telefonica}
 	\begin{figure}[!htbp]
 	  \centering
-	  \includegraphics[scale=0.60]{casi_uso/ricarica.png}
+	  \includegraphics[scale=0.65]{casi_uso/ricarica.png}
 	\end{figure}
 	
   \subsection{Caso d'uso: Ricarica telefonica}
  	\begin{figure}[!htbp]
 	  \centering
-	  \includegraphics[scale=0.60]{casi_uso/conti.png}
+	  \includegraphics[scale=0.65]{casi_uso/conti.png}
 	\end{figure}
 	
-\newpage
 
  \section{Specifica dei casi d'uso}
  
  \subsection{Caso d'uso: Ricarica telefonica}
 
- Le tabelle..... mostrano i casi d'uso relativi all'operazione di ricarica telefonica, nel caso in cui l'utente decida di ricaricare un numero di telefono associato ad un contatto presente nella rubrica del dispositivo.
+ Le tabelle \ref{tab:uc1}, \ref{tab:uc2}, \ref{tab:uc3}, \ref{tab:uc4}, \ref{tab:uc5} mostrano i casi d'uso relativi all'operazione di ricarica telefonica, nel caso in cui l'utente decida di ricaricare un numero di telefono associato ad un contatto presente nella rubrica del dispositivo.
+ 
+ 
 \begin{center}
+    \captionof{table}{Caso d'uso ricarica telefonica}
+    \label{tab:uc1}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} UC\_1\_0 & Ricarica telefonica di un numero salvato in rubrica \\ \hline
@@ -69,7 +74,9 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
      \end{longtable}
 \end{center}
 
-\begin{center}
+\begin{center}   
+    \captionof{table}{Caso d'uso selezione beneficiario}
+    \label{tab:uc2}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} UC\_1\_1 & Selezione beneficiario \\ \hline
@@ -93,18 +100,13 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
        \item L'utente annulla l'operazione
        \item Il caso d'uso termina
       \end{itemize}\\\hline
-    \textbf{Scenari di errore} &  \\\hline
-    & \begin{enumerate}
-    \setcounter{enumi}{2}
-       \item Il sistema non valida le credenziali
-       \item Il sistema comunica il tipo di errore
-       \item Il caso d'uso riprende dal punto \ref{item:beneficiario}
-      \end{enumerate}\\\hline
 
      \end{longtable}
 \end{center}
 
 \begin{center}
+    \captionof{table}{Caso d'uso selezione conto di addebito}
+    \label{tab:uc3}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} UC\_1\_2 & Selezione conto di addebito \\ \hline
@@ -132,6 +134,8 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
 \end{center}
 
 \begin{center}
+    \captionof{table}{Caso d'uso selezione operatore}
+    \label{tab:uc4}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} UC\_1\_3 & Selezione operatore \\ \hline
@@ -144,7 +148,7 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
        \item \label{item:compagnia}Il sistema visualizza la lista delle compagnie telefoniche
        \item L'utente seleziona una compagnia 
        \item \label{item:tagli} Il sistema mostra i tagli di ricarica disponibili
-       \item L'utente seleziona un tagio di ricarica
+       \item L'utente seleziona un taglio di ricarica
        \item Il sistema aggiorna l'interfaccia con la selezione effettuata
       \end{enumerate}\\\hline
       \textbf{Scenari alternativi} &  \\\hline
@@ -169,6 +173,8 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
 \end{center}
 
 \begin{center}
+    \captionof{table}{Caso d'uso verifica Pin e OTP}
+    \label{tab:uc5}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} UC\_1\_4 & Verifica Pin e OTP \\ \hline
@@ -202,6 +208,8 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
  \subsection{Caso d'uso: Visualizza lista conti e carte e Visualizza lista movimenti}
 
 \begin{center}
+    \captionof{table}{Caso d'uso visualizza conti e carte}
+    \label{tab:uc6}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} & UC\_2\_0  Visualizza lista conti e carte \\ \hline
@@ -234,6 +242,8 @@ Oltre a una descrizione testuale (gli \emph{Scenari}) i casi d'uso possono esser
 \end{center}
 
 \begin{center}
+    \captionof{table}{Caso d'uso visualizza lista movimenti}
+    \label{tab:uc7}
      \begin{longtable}{{ | l | p{8cm} |}}
     \hline
     \textbf{Caso d'uso} & UC\_2\_1  Visualizza lista movimenti \\ \hline
