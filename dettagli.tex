@@ -73,7 +73,6 @@ La comunicazione tra i container e i suoi figli è stata realizzata in modo tale
 
 L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'architettura modulare composta da componenti specializzati facilmente estendibili e riusabili.
 
-\newpage
 \begin{figure}[!htbp]
 \centering
 \includegraphics[scale=0.6]{dettagli/communication.png}
@@ -81,6 +80,7 @@ L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'a
 \label{fig:movimenticontainer}
 \end{figure}
 
+\newpage
 \section{Posizionamento di oggetti in uno spazio cartesiano}
 All'interno dell'applicazione è stato realizzato un algoritmo per il posizionamento di oggetti grafici in uno spazio cartesiano. Tali oggetti sono visualizzati come circonferenze all'interno dell'interfaccia grafica e sono utilizzati per riassumere i dati di un conto corrente o di una carta di credito (come importo, tipo di conto, ecc\dots).
 
@@ -90,7 +90,7 @@ La visualizzazione delle circonferenze ha dovuto rispettare i seguenti vincoli:
  \item  devono esser visualizzate il più possibile una vicino all'altra
  \item  non si devono sovrapporre
  \item  non  devono uscire da nessun lato dello schermo 
- \item 	devono entrare esser tutte visibili
+ \item 	devono esser tutte visibili
 \end{itemize}
 
 \subsection{Realizzazione}
@@ -125,10 +125,12 @@ La classe \texttt{AnchorPoint} rappresenta le coordinate $(x,y)$ di un punto su 
 \subsubsection{Algoritmo}
 Di seguito saranno descritte in pseudo-codice le procedure che compongono l'algoritmo di posizionamento.
 \\\\
-La procedura \ref{algo:1} calcola la dimensione di ogni bubble in base al saldo di un conto e controlla se nell'area delimitata dall'interfaccia tali bubble entrano, altrimenti esegue un ridimensionamento e riesegue ricorsivamente il calcolo.
-\begin{lstlisting}[label=algo:1,caption=startBubblesAlgorithm]
+La computazione inizia richiamando la procedura \ref{algo:1} che calcola la dimensione di ogni bubble in base al saldo di un conto e controlla se nell'area delimitata dall'interfaccia grafica tali bubble entrano, altrimenti esegue un ridimensionamento e riesegue ricorsivamente il calcolo.
+\begin{lstlisting}[label=algo:1,caption=startBubblesAlgorithm,breaklines=true]
 
 startBubblesAlgorithm(float resizePercent){
+    
+    //sizesArray contiene le dimensioni di tutte le Bubble calcolate
     
     for each(conto in contiList){
 	bubbleSize = calculateBubbleSizeForConto(conto)
@@ -149,9 +151,10 @@ startBubblesAlgorithm(float resizePercent){
 
 \end{lstlisting}
 
-La procedura \ref{algo:2} esegue il calcolo delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. Questo calcolo viene ripetuto fino a quando non si trova una disposizione ideale delle circonferenze. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
+Verificato che le bubble entrano nell'area viene richiamata la procedura \ref{algo:2} la quale esegue il calcolo delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. Questo calcolo viene ripetuto fino a quando non viene trova una disposizione ideale per gli oggetti. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
 
-\begin{lstlisting}[label=algo:2,caption=placeBubblesInSpace]
+% delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. In particolare la procedura prova una posizione per ogni bubble, in caso positivo viene lanciato il disegno su schermo, altrimenti viene eseguito un ridimensionamento delle bubble e viene rilanciato l'algoritmo per il posizionamento. per  Questo calcolo viene ripetuto fino a quando non si trova una disposizione ideale delle circonferenze. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
+\begin{lstlisting}[label=algo:2,caption=placeBubblesInSpace,breaklines=true]
 
 placeBubblesInSpace{
     
@@ -160,15 +163,14 @@ placeBubblesInSpace{
     while(finished == false){
     
 	//calcola la posizione per ogni Bubble
-	calculateOriginForBubble
+	calculateOriginForBubbles
 	
+	//se non ha avuto successo
 	if(recalculate){
 	
-	    //pulisce le strutture dati 
-			//create dai calcoli precedenti
+	    //pulisce le strutture dati create dai calcoli precedenti
 	    cleanOldData 
-	    //ricrea gli oggetti Bubble
-			//con ridimensionamento
+	    //ricrea gli oggetti Bubble con ridimensionamento
 	    resizeValue += 0.1
 	    createBubbles 
 	}
@@ -177,8 +179,7 @@ placeBubblesInSpace{
 	}
     }
     
-    //disegna sull'interfaccia le BubbleView
-			//ottenute dalle Bubble
+    //disegna sull'interfaccia le BubbleView ottenute dalle Bubble
     drawBubbleViewInSpace
 }
 
@@ -186,19 +187,22 @@ placeBubblesInSpace{
 \end{lstlisting}
 
 
-La procedura \texttt{calculateOriginForBubble} si occupa di posizionare la prima Bubble al centro dello schermo. Nei passi successivi per ogni Bubble già posizionata considera i suoi AnchorPoint e controlla se ne esiste uno utilizzabile: cioè un punto su una Bubble tale che affiancandogli un'altra Bubble quest'ultima non esce dai lati dallo schermo o si sovrapponga alle altre già posizionate. Se tale punto esiste la Bubble viene considerata come \emph{posizionata}, altrimenti vengono controllati iterativamente gli AnchorPoint di tutte le altre Bubble già posizionate.
+La procedura \texttt{calculateOriginForBubbles} si occupa di posizionare la prima Bubble al centro dello schermo. Nei passi successivi cerca di posizionare le restanti bubble considerando, per ogni Bubble già posizionata, i suoi AnchorPoint e controllando se ne esiste uno utilizzabile: cioè un punto su una Bubble tale che affiancandogli un'altra Bubble quest'ultima non esca dai lati dallo schermo o si sovrapponga alle altre già posizionate. Se tale punto esiste la Bubble viene considerata come \emph{posizionata} e l'anchorPoint \emph{occupato}, altrimenti vengono controllati iterativamente gli AnchorPoint di tutte le restanti Bubble già posizionate.
 
-Questo meccanismo permette di sfruttare tutta l'area a disposizione ricontrollando iterativamente gli spazi che avanzano dopo il posizionamento di una Bubble, in modo tale da ottenere una distribuzione uniforme delle circonferenze.
+Questo meccanismo permette di sfruttare tutta l'area a disposizione ricontrollando iterativamente gli spazi che avanzano dopo il posizionamento di una Bubble, in modo tale da ottenere una distribuzione uniforme degli oggetti.
 
-\begin{lstlisting}[label=algo:3,caption=calculateOriginForBubble,breaklines=true,  commentstyle=\color{CadetBlue}]
-calculateOriginForBubble{
+\begin{lstlisting}[label=algo:3,caption=calculateOriginForBubbles,breaklines=true,  commentstyle=\color{CadetBlue}]
+calculateOriginForBubbles{
 
+    //bubbles è l'array di oggetti Bubble per i quali deve esser calcolato il posizionamento
+  
     for each(newBubble in bubbles){
 
         BOOL isFound = NO;
 
         //se prima bolla
         if(newBubble isFirst){
+	    newBubble.center = view.frame.center
             add newBubble to placedBubbles
             continue;
         }
@@ -222,9 +226,8 @@ calculateOriginForBubble{
                 intersect = NO;
 
                 //provo con questo punto
-                //calcolo il centro dove posizionare la newBubble
-                //rispetto l'anchorPoint selezionato e il centro ad esso relativo
-                 aCenter = calculateCenter:bubble.center,point.angle,newBubble.radius + bubble.radius)
+                //calcolo il centro dove posizionare la newBubble rispetto l'anchorPoint selezionato e il centro ad esso relativo
+                aCenter = calculateCenter(bubble.center,point.angle,newBubble.radius + bubble.radius)
 
                 newBubble.center = aCenter;
 
@@ -273,13 +276,28 @@ calculateOriginForBubble{
         }
 
         if(!isFound){
-            //Arria qui se ha finito tutti gli anchor point di tutte le bolle già inserite.
+            //Arriva qui se ha finito tutti gli anchor point di tutte le bolle già inserite.
             recalculate = YES;
             return;
         }
 
-        //se arrivato qui aggiungo newBubble alle già  posizionate
+        //se arrivato qui aggiunge newBubble alle già  posizionate
         add newBubble to placedBubbles
     }
 }
 \end{lstlisting}
+
+
+\subsection{Prestazioni}
+Dalle analisi effettuate sulla base di dati del sistema bancario è stato osservato che il numero di conti e carte posseduto in media da ogni cliente è minore o uguale a dieci.
+
+L'algoritmo creato, pur effettuando ad ogni iterazione il controllo di tutti gli AnchorPoint di ogni Bubble posizionata, mantiene ottime prestazioni visualizzando gli oggetti in una ridotta frazione di secondi. Per questo motivo è stato ideato anche un meccanismo di ricalcolo delle posizione basato sul ridimensionamento degli oggetti Bubble nel caso in cui in una istanza di calcolo non si trovi una disposizione ottimale degli oggetti.  
+In particolare, quando l'algoritmo fallisce, riprova a calcolare le posizioni scalando la dimensione degli oggetti e rilanciando il posizionamento. Il ridimensionamento è stato realizzando diminuendo di una certa percentuale il diametro delle Bubble entro una dimensione minima tale da mostrare almeno l'icona e il saldo del prodotto bancario.
+\\\\
+Inoltre, per evitare di eseguire l'algoritmo ogni volta che l'utente apre la pagina relativa alla \emph{La Mia Situazione}, è stato eseguito il caching dei dati relativi alle posizioni delle bubble all'interno dell'interfaccia. Questo ha permesso di velocizzare ulteriormente la navigazione tra una pagina e un'altra dell'applicazione.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.4]{dettagli/bubblesInView.png}
+\caption{Dettaglio del calcolo delle posizioni}
+\label{fig:bubblesInView}
+\end{figure}
