@@ -7,7 +7,7 @@ Il progetto è stato realizzato seguendo un'architettura software client-server 
 
 Il middleware opera da intermediario tra i servizi bancari e l'applicazione. Tale componente ha il compito di ricevere le richieste dal client, di sottomettere a sua volta queste richieste ai servizi lato banca e di ritornare i dati al client opportunamente formattati.
 
-Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono eseguite seguendo un'architettura \emph{RESTFUL}  che prevede richieste \emph{HTTP} (POST, GET, PUT, DELETE). Le risposte fornite dal middleware verso il client sono costruite in formato \emph{JSON}.
+Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono eseguite seguendo un'architettura \emph{RESTFULL}  che prevede richieste \emph{HTTP} (POST, GET, PUT, DELETE). Le risposte fornite dal middleware verso il client sono costruite in formato \emph{JSON}.
 
 
 \begin{figure}[!htbp]
@@ -98,11 +98,10 @@ In particolare uno dei compiti principali di questo controller è quello di crea
 
 
 \newpage
-
+\begin{landscape}
 \begin{figure}[!htbp]
 \centering
 \includegraphics[scale=0.70]{architettura/controllersClass.png}
 \caption{Diagramma delle classi controller}
 \end{figure}
-\begin{landscape}
 \end{landscape}
