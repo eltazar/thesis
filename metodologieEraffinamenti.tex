@@ -127,14 +127,14 @@ Le \emph{GUI} (graphic user interface) sono state realizzate considerando le lin
  \item Feedback: fornire un feedback all'utente permette di avere una risposta immediata di un'azione intrapresa sull'interfaccia 
 \end{itemize}
 
-Oltre ai componenti standard offerti dall'\emph{SDK} iOS sono stati realizzati dei componenti grafici custom che hanno migliorato l'esperienza d'uso rispettando al tempo stesso le linee guida e il know how medio possduto dalle persone che utilizzano dispositivi mobili.  
+Oltre ai componenti standard offerti dall'\emph{SDK} iOS sono stati realizzati dei componenti grafici custom che hanno migliorato l'esperienza d'uso rispettando al tempo stesso le linee guida e il know how medio posseduto dalle persone che utilizzano dispositivi mobili.  
 
 \subsection{Esempi di GUI e raffinamenti successivi}
 
 \subsubsection{Colori}
 Inizialmente si era scelto di utilizzare un tema di colori focalizzato sullo stesso colore del brand del committente e degli altri prodotti precedentemente realizzati(esempio: sito web, app smartphone, ecc\dots).
 
-I test con gli utenti hanno però evidenziato che temi di colori troppo scuri possono risultare pesanti alla vista e percepiti difficili da leggere. Si è scelto quindi di utilizzare un tema di colori chiaro, con gli elementi più importanti in contrasto di colore in modo tale da indurre un focus immediato e guidare l'utente durante le operazioni.
+I test con gli utenti hanno però evidenziato che temi di colori troppo scuri possono risultare pesanti alla vista e percepiti come difficili da leggere. Si è scelto quindi di utilizzare un tema di colori chiaro, con gli elementi più importanti in contrasto di colore in modo tale da indurre un focus immediato e guidare l'utente durante le operazioni.
 
 \begin{figure}[!htbp]
 \centering
@@ -162,7 +162,7 @@ I test con gli utenti hanno però evidenziato che temi di colori troppo scuri po
 \newpage
 \subsubsection{Suggerimenti}
 
-Dai test effettuati si è notata la necessita di aiutare l'utente attraverso suggerimenti (\emph{hint}) visivi posti in particolari punti delle interfacce. L'utilizzo moderato di suggerimenti ha aumentato e migliorato la \emph{discoverability}. 
+Dai test effettuati è emersa la necessita di aiutare l'utente attraverso suggerimenti (\emph{hint}) visivi posti in particolari punti delle interfacce. L'utilizzo volutamente moderato di suggerimenti ha aumentato e migliorato la \emph{discoverability}. 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[scale=0.30]{ux/timelinenohint.png}
@@ -179,9 +179,9 @@ Per indicare che, in risposta ad una azione dell'utente, è avvenuto un evento n
 Di seguito sono riportati alcuni dei feedback utilizzati all'interno dell'applicazione:
 
 \begin{itemize}
- \item componenti che indicano il caricamento durante task di lunga durata (esempio durante le chiamate http ai servizi, figura \ref{fig:loading})
+ \item componenti che indicano il caricamento durante task di lunga durata (come ad esempio durante le chiamate http ai servizi, figura \ref{fig:loading})
  \item l'inserimento di animazioni per passare da un'interfacca ad un'altra dopo l'azione eseguita dall'utente (figura \ref{fig:animation})
- \item elementi grafici che cambiano il loro stati in risposta a eventi particolari (figura \ref{fig:copy})
+ \item elementi grafici che cambiano il loro stato in risposta a eventi particolari (figura \ref{fig:copy})
 
 \end{itemize}
 
@@ -209,16 +209,16 @@ Di seguito sono riportati alcuni dei feedback utilizzati all'interno dell'applic
 
 \newpage
 \subsubsection{Componenti personalizzati}
-L'utilizzo di componenti grafici personalizzati ha permesso di ottenere interfacce grafiche più ricche di funzioni e al tempo stesso intuitive e facili da usare. La figura \ref{fig:selettore} rappresenta un componente grafico che ha la funzione di poter selezionare attraverso un tap sui pulsanti o attraverso la gesture swipe un elemento in una lista di oggetti (in questo caso di conti); tale componente è stato realizzato come libreria esterna, e quindi riusabile in diversi contesti della stessa applicazione.
+L'utilizzo di componenti grafici personalizzati ha permesso di ottenere interfacce grafiche più ricche di funzioni e al tempo stesso intuitive e facili da usare. La figura \ref{fig:selettoreC} rappresenta un componente grafico che ha la funzione di poter selezionare attraverso un tap sui pulsanti o attraverso la gesture swipe un elemento in una lista di oggetti (in questo caso di conti); tale componente è stato realizzato come libreria esterna, e quindi riusabile in diversi contesti della stessa applicazione.
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.50]{ux/selettore.png}
 
 \caption{Il componente custom \emph{selettore conti}}
-\label{fig:selettore}
+\label{fig:selettoreC}
 \end{figure}
 
-Un'altro esempio di componente personalizzato sono i tasti di azione rapida accessibili effettuando la gesture \emph{swipe} sulle righe della \emph{Message box} interna all'applicazione.
+Un altro esempio di componente personalizzato sono i tasti di azione rapida accessibili effettuando la gesture \emph{swipe} sulle righe della \emph{Message box} interna all'applicazione.
 In questo caso si è ricreato lo stesso design e si è mantenuta la stessa interazione che presenta l'applicazione \emph{Mail} nativa di iOS 7, permettendo così all'utente di riutilizzare le stesse abilità acquisite nell'utilizzo di un software originale Apple.
 \begin{figure}[htbp]
 \centering
@@ -228,9 +228,9 @@ In questo caso si è ricreato lo stesso design e si è mantenuta la stessa inter
 \label{fig:selettore}
 \end{figure}
 \subsubsection{Help}
-Per permettere un facile e rapido utilizzo dell'applicazione a tutti i possibili utenti, che spaziano dall'utilizzatore abituale di device e applicazioni mobili a quelli che si avvicinano per la prima volta alle nuove tecnologie, si è deciso di utilizzare al primo avvio dell'app delle schermate di aiuto (figura \ref{fig:help}) che descrivessero le principali  e le meno intuitive funzionalità del software.
+Per permettere un facile e rapido utilizzo dell'applicazione a tutti i possibili utenti, che spaziano dall'utilizzatore abituale di dispositivi e applicazioni mobili a quelli che si avvicinano per la prima volta alle nuove tecnologie, si è deciso di utilizzare al primo avvio dell'app alcune schermate di aiuto (figura \ref{fig:help}) con la finalità di descrivere le principali  e le meno intuitive funzionalità del software.
 
-Le fasi di test hanno evidenziato l'effettiva necessità di tale scelta, che hanno portato al miglioramento della discoverability soprattutto nei primi utilizzi dell'app da parte di un utente.
+Le fasi di test hanno evidenziato l'effettiva necessità di tale scelta che ha portato al miglioramento della discoverability, soprattutto nei primi utilizzi dell'app da parte dell'utente.
 
 \begin{figure}[htbp]
 \centering
