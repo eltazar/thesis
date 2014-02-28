@@ -61,8 +61,48 @@ Utilizzare una libreria come AFNetworking ha permesso di ridurre i tempi di svil
 \caption{Diagramma delle classi per le connessioni di rete}
 \end{figure}
 
-% i servizi sono separati da quelli di autenticazione perchè gli  standard oauth richiedono la separazione i sottodimini diversi.
+\subsubsection{Autorizzazione}
 
+La classe singleton \texttt{AuthHTTPClient} ha il compito di effettuare il login ai servizi e di ottenere le credenziali di accesso alle risorse protette. Per l'autorizzazione e  l’accesso alle risorse offerte dai servizi bancari è stato utilizzato il protocollo open \emph{OAut} (Open Authorization).
+
+Nella classica autenticazione client-server il client ottiene l’accesso alle risorse protette, ospitate sul server, richiedendo l’autenticazione ad esso attraverso la sottomissione delle credenziali del proprietario delle risorse. Quindi per fornire ad ogni applicazione l’accesso alle risorse protette, il proprietario di tale risorse deve condividere le sue credenziali con queste applicazioni. Questo può portare a diversi problemi di sicurezza e limitazioni (argomenti non trattati in questo documento).
+ 
+Nel protocollo OAuth viene fatta una separazione tra il client e il proprietario delle risorse aggiungendo un ulteriore layer che si occupa dell’autorizzazione delle applicazioni di terze parti.
+Invece di usare le credenziali del proprietario delle risorse il client utilizza un \emph{access token} (una stringa che indica un preciso scope, tempo di vita, ecc\dots).
+Questo access token è fornito da un \emph{authorization server} sotto il permesso del proprietario delle risorse.
+
+Le entità coinvolte in questo protocollo sono:
+
+
+
+\begin{itemize}
+  \item Resource server: il sistema in cui sono memorizzate le risorse
+  \item Resource owner: il proprietario delle risorse, colui che possiede le credenziali sul Resource server
+  \item Protected resource: dati controllati dal Resource server
+  \item Client: un’applicazione che usa OAuth per accedere alle risorse ospitate sul Resource server, sotto la delega del Resource owner
+\end{itemize}
+
+
+
+Le figure \ref{fig:oauth} e \ref{fig:refresh} mostrano lo scambio dei dati tra un Client, un Authorization Server e un Resource Server nel caso in cui viene richiesto per la prima volta l'autenticazione e nel caso in cui viene generato un nuovo token a partire da un \emph{Refresh Token}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.50]{architettura/token.png}
+\caption{Nel diagramma è mostrato il flusso di richiesta di un token per l'accesso alle risorse. Il client richiede al Resource Owner il permesso per l'autenticazione. Il Resource Owner invia al Client il permesso rappresentato come un codice che segue le specifiche del protocollo. Il Client richiede all'Authorization Serve un access token passandogli il codice di autorizzazione. L'Authorization Server autentica il client e ritorna il token. Il Client utilizzerà tale token per accedere alle risorse protette memorizzate nel Resource Server. }
+\label{fig:oauth}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.40]{architettura/refreshToken.png}
+\caption{Il diagramma mostra il caso in cui la richiesta ad una risorsa protetta avvenga passando al Resource Server un token valido e il caso in cui il token corrente sia non valido. In quest'ultimo caso viene generato un nuovo token a partire dal \emph{refresh token}. }
+\label{fig:refresh}
+\end{figure}
+
+% i servizi sono separati da quelli di autenticazione perchè gli  standard oauth richiedono la separazione i sottodimini diversi.
+\newpage
 \subsection{Caching dei dati}
 Per migliorare le prestazioni e limitare il traffico di rete generato durante l'utilizzo dell'applicazione è stato implementato un meccanismo di caching dei dati che consente di salvare in memoria primaria i dati necessari all'applicazione durante una sessione di utilizzo. 
 
