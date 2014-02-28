@@ -16,16 +16,16 @@ L'utilizzo di tale pattern ha permesso durante la progettazione dell'applicazion
 
 \subsection{MiaSituazioneContainerController}
 \label{parag:miasituaz}
-Uno dei requisiti funzionali principali dell'applicazione prevede la visualizzazione dei conti e carte di un utente e l'eventuale visualizzazione dei movimenti ad essi relativi.
+Uno dei requisiti funzionali principali dell'applicazione prevede la visualizzazione dei conti e delle carte di un utente e l'eventuale visualizzazione dei movimenti ad essi relativi.
 
-La parte dell'architettura realizzata per realizzare tali funzionalità è composta dalla seguente gerarchia di container e child controller:
+La parte dell'architettura elaborata per realizzare tali funzionalità è composta dalla seguente gerarchia di container e child controller:
 
 \begin{itemize}
  \item MiaSituazioneContainerController (figura \ref{fig:miasituazione}): è il container controller che ha il compito di creare l'interfaccia di base e di creare un array di child controller:
  \begin{itemize}
   \item ContiContainerController: è il container che gestisce la creazione e la comunicazione tra i controller adibiti alla visualizzazione dei prodotti bancari come vista a bolle o vista a tabella (nello specifico \emph{BubbleViewController} e \emph{ContiTableViewController})
   \item MovimentiContainerController: è il container che gestisce la creazione e la comunicazione tra i controller adibiti alla visualizzazione dei movimenti di un determinato conto (nello specifico \emph{TimelineViewController} e \emph{MovimentiTableViewController})
-  \item ContiFilterTableViewController: il controller che si occupa della visualizzazione e della logica di filtraggio dei conti che l'utente può visualizzare a schermo
+  \item ContiFilterTableViewController: il controller che si occupa della visualizzazione e della logica di filtraggio dei conti che l'utente può visualizzare sullo schermo
  \end{itemize}
 \end{itemize}
 \begin{figure}[!htbp]
@@ -46,7 +46,7 @@ La parte dell'architettura realizzata per realizzare tali funzionalità è compo
 \caption{ContiTableViewController}
 % \label{fig:miasituazione}
 \end{figure}
-Quando \emph{MiaSituazioneContainerController} viene istanziato è eseguita una chiamata ai servizi per ottenere la lista dei conti dell'utente, tale lista verrà quindi utilizzata come model comune a tutta la gerarchia dei controller descritti sopra. È compito quindi del MiaSituazioneContainerController gestire gli eventi dell'interfaccia principale e passare il model a uno dei controller figli quando l'utente sceglierà una delle modalità di visualizzazione descritte precedentemente. 
+Quando \emph{MiaSituazioneContainerController} viene istanziato, è eseguita una chiamata ai servizi per ottenere la lista dei conti dell'utente, tale lista verrà quindi utilizzata come model comune a tutta la gerarchia dei controller descritti sopra. È compito quindi del MiaSituazioneContainerController gestire gli eventi dell'interfaccia principale e passare il model a uno dei controller figli quando l'utente sceglierà una delle modalità di visualizzazione descritte precedentemente. 
 
 \subsection{MovimentiContainerController}
 
@@ -68,7 +68,7 @@ La comunicazione tra i container e i suoi figli è stata realizzata in modo tale
 
 \begin{itemize}
  \item message passing: realizza la comunicazione in avanti tra un container e un child controller mediante opportune interfacce messe a disposizione dai child contoller
- \item pattern delegate: realizza la comunicazione all'indietro da un child ad un container controller mediante la dichiarazione di opportuni protocolli (\emph{protocol} nella tecnologia iOS) da parte dei child controller. I container controllor vengono quindi dichiarati conformi a tali protocolli e posti come \emph{delegate} ( oggetti che operano come aiutanti adibiti all'esecuzione di compiti particolari)
+ \item pattern delegate: realizza la comunicazione all'indietro da un child ad un container controller mediante la dichiarazione di opportuni protocolli (\emph{protocol} nella tecnologia iOS) da parte dei child controller. I container controller vengono quindi dichiarati conformi a tali protocolli e posti come \emph{delegate} ( oggetti che operano come aiutanti adibiti all'esecuzione di compiti particolari)
 \end{itemize}
 
 L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'architettura modulare composta da componenti specializzati facilmente estendibili e riusabili.
@@ -113,7 +113,7 @@ Per decidere in quale punto dello spazio posizionare una circonferenza e per dec
 
 \subsubsection{AnchorPoint}
 
-La classe \texttt{AnchorPoint} rappresenta le coordinate $(x,y)$ di un punto su una circonferenza. Tale oggetto è utilizzato per decidere in quale posizione su di una bubble aggiungere un'altra bubble (figura \ref{fig:anchor}). 
+La classe \texttt{AnchorPoint} rappresenta le coordinate $(x,y)$ di un punto su una circonferenza. Tale oggetto è utilizzato per decidere in quale posizione di una bubble aggiungere un'altra bubble (figura \ref{fig:anchor}). 
 
 \begin{figure}[!htbp]
 \centering
@@ -125,7 +125,7 @@ La classe \texttt{AnchorPoint} rappresenta le coordinate $(x,y)$ di un punto su 
 \subsubsection{Algoritmo}
 Di seguito saranno descritte in pseudo-codice le procedure che compongono l'algoritmo di posizionamento.
 \\\\
-La computazione inizia richiamando la procedura \ref{algo:1} che calcola la dimensione di ogni bubble in base al saldo di un conto e controlla se nell'area delimitata dall'interfaccia grafica tali bubble entrano, altrimenti esegue un ridimensionamento e riesegue ricorsivamente il calcolo.
+La computazione inizia richiamando la procedura \ref{algo:1} che calcola la dimensione di ogni bubble in base al saldo di un conto e controlla se tali bubble entrano  nell'area delimitata dall'interfaccia grafica, altrimenti esegue un ridimensionamento e riesegue ricorsivamente il calcolo.
 \begin{lstlisting}[label=algo:1,caption=startBubblesAlgorithm,breaklines=true]
 
 startBubblesAlgorithm(float resizePercent){
@@ -151,7 +151,7 @@ startBubblesAlgorithm(float resizePercent){
 
 \end{lstlisting}
 
-Verificato che le bubble entrano nell'area viene richiamata la procedura \ref{algo:2} la quale esegue il calcolo delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. Questo calcolo viene ripetuto fino a quando non viene trova una disposizione ideale per gli oggetti. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
+Verificato che le bubble entrano nell'area viene richiamata la procedura \ref{algo:2} la quale lancia il calcolo delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. Questo calcolo viene ripetuto fino a quando non viene trovata una disposizione ideale per gli oggetti. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
 
 % delle posizioni degli oggetti Bubble all'interno dell'area delimitata dall'interfaccia. In particolare la procedura prova una posizione per ogni bubble, in caso positivo viene lanciato il disegno su schermo, altrimenti viene eseguito un ridimensionamento delle bubble e viene rilanciato l'algoritmo per il posizionamento. per  Questo calcolo viene ripetuto fino a quando non si trova una disposizione ideale delle circonferenze. Al termine della computazione verranno creati gli oggetti \texttt{BubbleView} che saranno successivamente disegnati all'interno dell'interfaccia grafica.
 \begin{lstlisting}[label=algo:2,caption=placeBubblesInSpace,breaklines=true]
@@ -297,9 +297,9 @@ calculateOriginForBubbles{
 
 
 \subsection{Prestazioni}
-Dalle analisi effettuate sulla base di dati del sistema bancario è stato osservato che il numero di conti e carte posseduto in media da ogni cliente è minore o uguale a dieci.
+Dalle analisi effettuate sulla base di dati del sistema bancario è stato osservato che il numero di conti e delle carte posseduto in media da ogni cliente è minore o uguale a dieci.
 
-L'algoritmo creato, pur effettuando ad ogni iterazione il controllo di tutti gli AnchorPoint di ogni Bubble posizionata, mantiene ottime prestazioni visualizzando gli oggetti in una ridotta frazione di secondi. Per questo motivo è stato ideato anche un meccanismo di ricalcolo delle posizione basato sul ridimensionamento degli oggetti Bubble nel caso in cui in una istanza di calcolo non si trovi una disposizione ottimale degli oggetti.  
-In particolare, quando l'algoritmo fallisce, riprova a calcolare le posizioni scalando la dimensione degli oggetti e rilanciando il posizionamento. Il ridimensionamento è stato realizzando diminuendo di una certa percentuale il diametro delle Bubble entro una dimensione minima tale da mostrare almeno l'icona e il saldo del prodotto bancario.
+L'algoritmo creato, pur effettuando ad ogni iterazione il controllo di tutti gli AnchorPoint di ogni Bubble posizionata, mantiene ottime prestazioni visualizzando gli oggetti in una ridotta frazione di secondi. Per questo motivo è stato ideato anche un meccanismo di ricalcolo delle posizioni basato sul ridimensionamento degli oggetti Bubble nel caso in cui in una istanza di calcolo non si trovi una disposizione ottimale degli oggetti.  
+In particolare, quando l'algoritmo fallisce, riprova a calcolare le posizioni scalando la dimensione degli oggetti e rilanciando il posizionamento. Il ridimensionamento è stato realizzato diminuendo di una certa percentuale il diametro delle Bubble. Per permettere la visualizzazione almeno del saldo e dell'icona del prodotto bancario, il ridimensionamento delle Bubble può essere effettuato purché il loro diametro non sia inferiore a una determina lunghezza.
 \\\\
-Inoltre, per evitare di eseguire l'algoritmo ogni volta che l'utente apre la pagina relativa alla \emph{La Mia Situazione}, è stato eseguito il caching dei dati relativi alle posizioni delle bubble all'interno dell'interfaccia. Questo ha permesso di velocizzare ulteriormente la navigazione tra una pagina e un'altra dell'applicazione.
+Inoltre, per evitare di eseguire l'algoritmo ogni volta che l'utente apre la pagina relativa alla \emph{La Mia Situazione}, è stato realizzato il caching dei dati relativi alle posizioni delle bubble all'interno dell'interfaccia. Questo ha permesso di velocizzare ulteriormente la navigazione tra una pagina e un'altra dell'applicazione.
