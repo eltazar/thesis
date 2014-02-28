@@ -187,9 +187,17 @@ placeBubblesInSpace{
 \end{lstlisting}
 
 
-La procedura \texttt{calculateOriginForBubbles} si occupa di posizionare la prima Bubble al centro dello schermo. Nei passi successivi cerca di posizionare le restanti bubble considerando, per ogni Bubble già posizionata, i suoi AnchorPoint e controllando se ne esiste uno utilizzabile: cioè un punto su una Bubble tale che affiancandogli un'altra Bubble quest'ultima non esca dai lati dallo schermo o si sovrapponga alle altre già posizionate. Se tale punto esiste la Bubble viene considerata come \emph{posizionata} e l'anchorPoint \emph{occupato}, altrimenti vengono controllati iterativamente gli AnchorPoint di tutte le restanti Bubble già posizionate.
+La procedura \texttt{calculateOriginForBubbles} (listato \ref{algo:3}) inizia posizionando la prima Bubble al centro dello schermo. Nei passi successivi cerca di posizionare le restanti bubble considerando, per ogni Bubble già posizionata, i suoi AnchorPoint e controllando se ne esiste uno utilizzabile: cioè un punto su una Bubble tale che affiancandogli un'altra Bubble quest'ultima non esca dai lati dallo schermo o si sovrapponga alle altre già posizionate. Se tale punto esiste la Bubble viene considerata come \emph{posizionata} e l'anchorPoint \emph{occupato}, altrimenti vengono controllati iterativamente gli AnchorPoint di tutte le restanti Bubble già posizionate. Trovato un anchorPoint valido vengono calcolate le coordinate $(x,y)$ che formeranno il centro della nuova bubble da visualizzare. Queste coordinate giacciono sulla retta che congiunge l'anchorPoint trovato e il centro della bubble che lo contiene (\ref{fig:bubblesInView}).
 
 Questo meccanismo permette di sfruttare tutta l'area a disposizione ricontrollando iterativamente gli spazi che avanzano dopo il posizionamento di una Bubble, in modo tale da ottenere una distribuzione uniforme degli oggetti.
+
+\newpage
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.4]{dettagli/bubblesInView.png}
+\caption{Dettaglio del calcolo delle posizioni}
+\label{fig:bubblesInView}
+\end{figure}
 
 \begin{lstlisting}[label=algo:3,caption=calculateOriginForBubbles,breaklines=true,  commentstyle=\color{CadetBlue}]
 calculateOriginForBubbles{
@@ -295,9 +303,3 @@ L'algoritmo creato, pur effettuando ad ogni iterazione il controllo di tutti gli
 In particolare, quando l'algoritmo fallisce, riprova a calcolare le posizioni scalando la dimensione degli oggetti e rilanciando il posizionamento. Il ridimensionamento è stato realizzando diminuendo di una certa percentuale il diametro delle Bubble entro una dimensione minima tale da mostrare almeno l'icona e il saldo del prodotto bancario.
 \\\\
 Inoltre, per evitare di eseguire l'algoritmo ogni volta che l'utente apre la pagina relativa alla \emph{La Mia Situazione}, è stato eseguito il caching dei dati relativi alle posizioni delle bubble all'interno dell'interfaccia. Questo ha permesso di velocizzare ulteriormente la navigazione tra una pagina e un'altra dell'applicazione.
-\begin{figure}[!htbp]
-\centering
-\includegraphics[scale=0.4]{dettagli/bubblesInView.png}
-\caption{Dettaglio del calcolo delle posizioni}
-\label{fig:bubblesInView}
-\end{figure}
