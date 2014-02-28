@@ -3,11 +3,11 @@
 
 \section{Architettura generale}
 
-Il progetto è stato realizzato seguendo un'architettura software client-server (figura \ref{fig:arch}). In questa architettura i componenti principali sono: il client rappresentato dall'applicazione iPad oggetto di questo documento, e il lato server scomposto in \emph{middleware} e i sistemi messi a disposizione dal cliente (l'istituto bancario).
+Il progetto è stato realizzato seguendo un'architettura software client-server (figura \ref{fig:arch}). In questa architettura i componenti principali sono due: il client rappresentato dall'applicazione iPad oggetto di questo documento e il lato server scomposto in \emph{middleware} e nei sistemi messi a disposizione dal cliente (l'istituto bancario).
 
-Il middleware opera da intermediario tra i servizi bancari e l'applicazione. Tale componente ha il compito di ricevere le richieste dal client, di sottomettere a sua volta queste richieste ai servizi lato banca e di ritornare i dati al client opportunamente formattati.
+Il middleware opera da intermediario tra i servizi bancari e l'applicazione ed  ha il compito di ricevere le richieste dal client, di sottomettere a sua volta queste richieste ai servizi lato banca e di ritornare i dati al client opportunamente codificati.
 
-Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono eseguite seguendo un'architettura \emph{RESTFULL}  che prevede richieste \emph{HTTP} (POST, GET, PUT, DELETE). Le risposte fornite dal middleware verso il client sono costruite in formato \emph{JSON}.
+Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono eseguite seguendo un'architettura \emph{RESTFUL}  che prevede richieste \emph{HTTP} (POST, GET, PUT, DELETE). Le risposte fornite dal middleware verso il client sono costruite in formato \emph{JSON}.
 
 
 \begin{figure}[!htbp]
@@ -17,11 +17,11 @@ Le richieste verso il middleware (ospitante un webserver \emph{Apache}) vengono 
 \label{fig:arch}
 \end{figure}
 
-\section{Architettura applicazione}
+\section{Architettura dell' applicazione}
 
 L'applicazione è stata progettata usando il design pattern \emph{MVC} (Model-View-Controller, figura \ref{fig:mvc}). In tale pattern ogni oggetto dell'applicazione assolve uno dei seguenti ruoli:
 \begin{itemize}
- \item Model: gli oggetti di tipo model hanno il compito di incapsulare i dati specifici a un'applicazione e di definire le logiche per modificare e processare tali dati
+ \item Model: gli oggetti di tipo model hanno il compito di incapsulare i dati specifici di un'applicazione e di definire le logiche per modificare e processare tali dati
  \item View: sono gli oggetti dell'applicazione visibili all'utente. Tali oggetti hanno il compito di visualizzare i dati dell'applicazione e di permetterne l'interazione (esempio la modifica)
  \item Controller: è un oggetto che opera da intermediario tra la view e uno o più model dell'applicazione. Tali oggetti hanno quindi la funzione di comunicare i cambiamenti tra le view e i model, e viceversa.
 \end{itemize}
@@ -51,7 +51,7 @@ Di seguito sono rappresentate una parte delle classi della \emph{business logic}
 
 \subsection{Connessione ai servizi}
 \label{parag:networking}
-La parte relativa alla gestione delle chiamate ai servizi è stata realizzata implementando delle classi \emph{singleton}. Tali classi estendono la libreria di terze parti \texttt{AFNetworking} che opera da wrapper sulle tecnologie di comunicazione messe a disposizione dall'SDK iOS (Foundation URL Loading System). 
+La parte relativa alla gestione delle chiamate ai servizi è stata realizzata implementando classi di tipo \emph{singleton}. Tali classi estendono la libreria di terze parti \texttt{AFNetworking} che opera da wrapper sulle tecnologie di comunicazione messe a disposizione dall'SDK iOS (Foundation URL Loading System). 
 
 Utilizzare una libreria come AFNetworking ha permesso di ridurre i tempi di sviluppo e di sfruttare le potenzialità offerte dalle sue API come: la serializzazione e deserializzazione dei dati, la possibilità di effettuare richieste HTTP asincrone, una gestione efficiente delle code, la gestione di sessioni, ecc\dots.  
 
@@ -63,13 +63,13 @@ Utilizzare una libreria come AFNetworking ha permesso di ridurre i tempi di svil
 
 \subsubsection{Autorizzazione}
 
-La classe singleton \texttt{AuthHTTPClient} ha il compito di effettuare il login ai servizi e di ottenere le credenziali di accesso alle risorse protette. Per l'autorizzazione e  l’accesso alle risorse offerte dai servizi bancari è stato utilizzato il protocollo open \emph{OAut} (Open Authorization).
+La classe singleton \texttt{AuthHTTPClient} ha il compito di effettuare il login ai servizi e di ottenere le credenziali di accesso alle risorse protette. Per l'autorizzazione e  l’accesso alle risorse offerte dai servizi bancari è stato utilizzato il protocollo open \emph{OAut 2.0} (Open Authorization).
 
-Nella classica autenticazione client-server il client ottiene l’accesso alle risorse protette, ospitate sul server, richiedendo l’autenticazione ad esso attraverso la sottomissione delle credenziali del proprietario delle risorse. Quindi per fornire ad ogni applicazione l’accesso alle risorse protette, il proprietario di tale risorse deve condividere le sue credenziali con queste applicazioni. Questo può portare a diversi problemi di sicurezza e limitazioni (argomenti non trattati in questo documento).
+Nella classica autenticazione client-server, il client ottiene l’accesso alle risorse protette, ospitate sul server, richiedendo l’autenticazione ad esso attraverso la sottomissione delle credenziali del proprietario delle risorse. Quindi per fornire ad ogni applicazione l’accesso alle risorse protette, il proprietario di tale risorse deve condividere le sue credenziali con queste applicazioni. Questo può portare a diversi problemi di sicurezza e limitazioni (argomenti non trattati in questo documento).
  
 Nel protocollo OAuth viene fatta una separazione tra il client e il proprietario delle risorse aggiungendo un ulteriore layer che si occupa dell’autorizzazione delle applicazioni di terze parti.
 Invece di usare le credenziali del proprietario delle risorse il client utilizza un \emph{access token} (una stringa che indica un preciso scope, tempo di vita, ecc\dots).
-Questo access token è fornito da un \emph{authorization server} sotto il permesso del proprietario delle risorse.
+Questo access token è fornito da un \emph{Authorization Server} previo permesso del proprietario delle risorse.
 
 Le entità coinvolte in questo protocollo sono:
 
@@ -116,8 +116,8 @@ Per migliorare le prestazioni e limitare il traffico di rete generato durante l'
 L'applicazione prevede un sistema di autenticazione ai servizi basata su livelli. In particolare sono previsti tre livelli di autenticazione:
 \begin{itemize}
  \item autenticazione di livello zero: è il livello associato a un utente che non ha ancora effettuato il login
- \item autenticazione di primo livello: è il livello associato ad un utente che ha precedentemente effettuato il login, ha scelto di ricordare le credenziali e che ha momentaneamente sospeso l'utilizzo dell'applicazione. Questo livello permette all'utente di accedere a un gruppo ristretto di funzionalità nel momento in cui riprenderà l'utilizzo dell'applicazione
- \item autenticazione di secondo livello: è il livello associato ad un utente che ha precedentemente effettuato il login e che permette l'accesso a tutte le funzionalità previste dall'applicazione. Questo livello permane fino a quando l'utente non richiede esplicitamente il logout o sospende l'applicazione
+ \item autenticazione di primo livello: è il livello associato a un utente che ha precedentemente effettuato il login, ha scelto di ricordare le credenziali ed ha momentaneamente sospeso l'utilizzo dell'applicazione. Questo livello permette all'utente di accedere a un gruppo ristretto di funzionalità nel momento in cui riprenderà l'utilizzo dell'applicazione
+ \item autenticazione di secondo livello: è il livello associato a un utente che ha precedentemente effettuato il login e che permette l'accesso a tutte le funzionalità previste dall'applicazione. Questo livello permane fino a quando l'utente non richiede esplicitamente il logout o sospende l'applicazione
 \end{itemize}
 
 \begin{figure}[!htbp]
@@ -143,7 +143,7 @@ Di seguito è riportato il diagramma delle classi rappresentanti i controller pr
 
 A titolo esemplificativo nel diagramma si può notare che il \texttt{BaseViewController} è il controller principale dal quale gli altri controller ereditano le funzionalità e proprietà generiche. Tale controller si occupa della creazione e visualizzazione degli  elementi grafici comuni a tutte le interfacce (ad esempio la navigation bar personalizzata) e delle logiche necessarie ad ogni controller che lo specializza.
 
-In particolare uno dei compiti principali di questo controller è quello di creare il controller che gestisce l'interfaccia e la logica per il login ai servizi (\texttt{LoginViewController}) e di implementare il protocollo \texttt{LoginViewControllerProtocol} dichiarato dallo stesso LoginViewController. Sarà quindi compito del LoginViewController  lanciare il processo di login e comunicare al BaseViewController l'esito dell'operazione attraverso il protocollo descritto precedentemente; così facendo il BaseViewController sarà in grado di effettuare l'aggiornamento dello stato dell'interfaccia.
+In particolare uno dei compiti principali di questo controller è quello di creare il controller che gestisce l'interfaccia e la logica per il login ai servizi (\texttt{LoginViewController}) e di implementare i metodi nel  protocollo \texttt{LoginViewControllerProtocol} dichiarato dallo stesso LoginViewController. Sarà quindi compito del LoginViewController  lanciare il processo di login e comunicare al BaseViewController l'esito dell'operazione attraverso il protocollo descritto precedentemente; così facendo il BaseViewController sarà in grado di effettuare l'aggiornamento dello stato dell'interfaccia.
 
 
 \newpage
