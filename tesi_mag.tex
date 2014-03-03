@@ -15,6 +15,8 @@
 \usepackage{longtable}
 \usepackage{enumerate}
 \usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{mathtools}
 % \usepackage{pdflscape}
 % \usepackage{geometry}
 \usepackage[]{algorithm2e}
@@ -60,14 +62,28 @@
 
 \maketitle
 
-\dedication{Dedicato a\\}
+\dedication{Dedicato a chi non ha mai mollato}
 
 \begin{abstract}
-.
+Il lavoro presentato in questo documento (realizzato come tirocinio presso l'azienda NTT Data Italia) descrive le diverse fasi di progettazione e di sviluppo di un'applicazione mobile, per dispositivi Apple iPad,  commissionata da un'importante istituto finanziario.
+
+L'applicazione avrà lo scopo sia di permettere all'utente finale (il titolare di un conto bancario) di usufruire dei principali servizi messi a disposizione dall'istituto bancario sia di offrire soluzioni sempre più innovative, a portata di mano e vicine alle reali necessità dell'utente.
+
+% Il progetto ha lo scopo di abbracciare diverse figure di utenti che spaziano da
+% 
+% JobNavigator si rivolge a una figura di utente che può spaziare dal datore di lavoro alla ricerca di personale, al disoccupato o a quanti desiderino trovare una migliore sistemazione lavorativa. Non solo, infatti con JobNavigator chiunque può diventare parte attiva del sistema semplicemente segnalando le offerte di lavoro di cui è venuto a conoscenza: in questo modo si danno maggiori opportunità a quanti sono impegnati nella difficile e continua ricerca di un impiego. 
+
+Nell'esposizione è stata data enfasi alle scelte progettuali effettuate, descrivendo i problemi incontrati durante il ciclo di vita del software e le relative soluzioni adottate.
+
+% Il software JobNavigator è attualmente in corso di pubblicazione sul servizio Apple \emph{App Store}. 
 \end{abstract}
 
 \begin{acknowledgments}
-
+Ringrazio anzitutto il  professor Emanuele Panizzi, Relatore: senza il suo supporto e la sua guida sapiente questa tesi non esisterebbe. 
+\\\\
+Ringrazio inoltre il Dott. Raffaele Gitto, Co-Relatore, e tutti i colleghi della NTT Data per tutto quello che hanno fatto per me durante il periodo di stage.
+\\\\
+Un sentito grazie a tutti gli amici e i colleghi universitari che mi hanno supportato e sopportato durante questi anni, in particolare: Domenico, Federico, Flavia, Giovanni. 
 \end{acknowledgments}
 
 \tableofcontents
@@ -87,7 +103,7 @@
 % 
 % \textcolor{gray}{\lipsum[1-22]}
 
-
+\large
 
 
 \mainmatter
@@ -98,7 +114,7 @@
 \include{casiduso}
 \include{architettura}
 \include{dettagli}
-\chapter{Sviluppi futuri}
+\include{sviluppi}
 
 %  \chapter{Style features of \textsf{sapthesis}}
 % 
@@ -233,5 +249,15 @@
 %\phantomsection
 %\bibliographystyle{sapthesis} % BibTeX style
 %\bibliography{bibliography} % BibTeX database without .bib extension
+
+\begin{thebibliography}{}
+\bibitem{rif2} Apple, \emph{iOS Secure Coding Guide}.\newline \url{https://developer.apple.com/library/mac/documentation/security/conceptual/SecureCodingGuide/Introduction.html}
+\bibitem{rif2} Apple, \emph{iOS Human Interface Guidelines}.\newline \url{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/MobileHIG/index.html}
+\bibitem{rif5} Alan Dix, Janet Finlay, Gregory D. Abowd, Russell Beale, \emph{Interazione uomo-macchina}. 2004.
+\bibitem{rif4} Apple, \emph{iOS Application Programming Guide}. \newline \url{http://developer.apple.com/library/ios/#documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Introduction/Introduction.html}
+\bibitem{rif5} Ian Sommerville, \emph{Ingegneria del software}. 2007.
+\bibitem{rif3} Apple, \emph{API's reference documents}.\newline \url{http://developer.apple.com/library/ios/navigation/#section=Resource%20Types&topic=Reference}
+\end{thebibliography}
+
 
 \end{document}

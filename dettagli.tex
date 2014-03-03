@@ -77,7 +77,7 @@ L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'a
 \centering
 \includegraphics[scale=0.6]{dettagli/communication.png}
 \caption{Esempio di comunicazione da un container padre a un child controller}
-\label{fig:movimenticontainer}
+\label{fig:comunicazione}
 \end{figure}
 
 \newpage
@@ -303,3 +303,158 @@ L'algoritmo creato, pur effettuando ad ogni iterazione il controllo di tutti gli
 In particolare, quando l'algoritmo fallisce, riprova a calcolare le posizioni scalando la dimensione degli oggetti e rilanciando il posizionamento. Il ridimensionamento è stato realizzato diminuendo di una certa percentuale il diametro delle Bubble. Per permettere la visualizzazione almeno del saldo e dell'icona del prodotto bancario, il ridimensionamento delle Bubble può essere effettuato purché il loro diametro non sia inferiore a una determina lunghezza.
 \\\\
 Inoltre, per evitare di eseguire l'algoritmo ogni volta che l'utente apre la pagina relativa alla \emph{La Mia Situazione}, è stato realizzato il caching dei dati relativi alle posizioni delle bubble all'interno dell'interfaccia. Questo ha permesso di velocizzare ulteriormente la navigazione tra una pagina e un'altra dell'applicazione.
+
+\section{Grafico a bolle}
+
+Per permettere la visualizzazione dei grafici a bolle sono state estese le funzionalità del framework \texttt{CorePlot}, in particolare sono state realizzate delle classi che modificano il grafico \emph{CPTScatterPlot} cioè la classe che premette il disegno di grafici a barre.
+
+In tale grafico le barre sono state ridisegnate come bolle, in cui le ascisse di ogni bolla del grafico indicano le date dei dati da rappresentare, le ordinate indicano i saldi di ogni elemento e il diametro delle bolle è data una funzione dipendente dal saldo e dai valori delle dimensioni massime e minime secondo la seguente formula:
+
+
+
+%  bubbleDiameter = (((point.y) * (MAX\_DIAMETER - MIN_DIAMETER)) / (_max))+MIN_DIAMETER;
+
+% \begin{displaymath}
+% \newcommand{\bcdot}{\boldsymbol{\cdot}}
+% 
+% \begin{multiline}
+%  $bubbleDiameter = \biggl({point.y \bcdot (MAX\_DIAMETER - MIN\_DIAMETER)  \over max }\biggr) \\ + MIN\_DIAMETER $
+% \end{multiline}
+
+\begin{align}
+%   \phantom{i + j + k}
+  &\begin{aligned}
+%     \mathllap{a} &= b + c + d\\
+%       &\qquad + e + f + g + x + y + z
+      bubbleDiameter = \biggl({point.y \times (MAX\_DIAMETER - MIN\_DIAMETER)  \over max }\biggr) \\ + MIN\_DIAMETER
+  \end{aligned}
+\end{align}
+
+% \end{displaymath}
+
+Dove $point.y$ indica il valore del saldo della i-esima bolla, $MAX\_DIAMETER$ e $MIN\_DIAMETER$ indicano rispettivamente il diametro massimo e minimo che una bolla può assumere e $max$ rappresenta il valore massimo presente nell'insieme dei dati da rappresentare nel grafico.
+In questo modo è stato possibile ridimensionare le bolle in modo tale da non occupare troppo spazio all'interno dello schermo e ottenendo quindi una visione omogenea dei dati.
+\\\\
+Per disegnare le etichette verticali su ogni bolla è stata realizzata la seguente procedura:
+
+//creo la label
+    
+
+    
+
+    //array delle coordinate del punto plottato
+    NSDecimal plotPoint[2];
+
+    //valore della x
+    NSNumber *plotXvalue = [self numberForPlot:plot
+
+                                         field:CPTScatterPlotFieldX
+
+                                   recordIndex:index];
+
+    plotPoint[CPTCoordinateX] = plotXvalue.decimalValue;
+
+    
+
+    //valore della y
+    NSNumber *plotYvalue = [self numberForPlot:plot
+
+                                         field:CPTScatterPlotFieldY
+
+                                   recordIndex:index];
+
+    plotPoint[CPTCoordinateY] = plotYvalue.decimalValue;
+
+    
+
+    //valore y del punto da plottare
+
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
+
+    
+
+    // esegue conversione dalle coordinate del dato alle coordinate dello spazio cartesiano del grafico
+
+    CGPoint dataPoint = [plotSpace plotAreaViewPointForPlotPoint:plotPoint numberOfCoordinates:2];
+
+    
+
+    // convert from plot area coordinates to graph (and hosting view) coordinates
+
+    //centro del cerchio nella view hosting
+
+    dataPoint = [_graph convertPoint:dataPoint fromLayer:_graph.plotAreaFrame.plotArea];
+
+    
+
+    
+
+    //punto della VIEW su cui attaccare la label
+
+    CGFloat labelYorigin = dataPoint.y+(bubbleDiameter/2)+15;
+
+    
+
+    //debug view
+
+    //UIView *ciao = [[UIView alloc] initWithFrame:CGRectMake(dataPoint.x, labelYorigin, 2, 2)];
+
+    //ciao.backgroundColor = [UIColor greenColor];
+
+    //[self.hostingView addSubview:ciao];
+
+    //
+
+    
+
+    //calcolo il VALORE dell'offset tra il centro del cerchio e il punto dove deve esser disegnata la label nel sistema di riferimento del grafico
+
+    NSDecimal labelPlotPoint[2];
+
+    CGPoint dataPointExtended = CGPointMake(dataPoint.x, labelYorigin-dataPoint.y + textLabelWidth);
+
+    [plotSpace plotPoint:labelPlotPoint numberOfCoordinates:2 forPlotAreaViewPoint:dataPointExtended];
+
+    //[plot.plotSpace plotPoint:labelPlotPoint forPlotAreaViewPoint:dataPointExtended];
+
+    
+
+    //l'offset da aggiungure al centro del cerchio nel sistema di riferimento del grafico
+
+    float offset = [[NSDecimalNumber decimalNumberWithDecimal:labelPlotPoint[CPTCoordinateY]] floatValue];
+
+    
+
+    //NSLog(@"\n saldo = %f,\n label sopra il saldo = %f",point.y, point.y + offset);
+
+    
+
+    
+
+    
+
+    CGFloat x = point.x;
+
+    NSNumber *anchorX = [NSNumber numberWithFloat:x];
+
+    
+
+    CGFloat y = point.y + offset + diameterValue;
+
+    NSNumber *anchorY = [NSNumber numberWithDouble:y];
+
+    
+
+    CPTPlotSpaceAnnotation *priceAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:plot.plotSpace anchorPlotPoint:[NSArray arrayWithObjects:anchorX, anchorY, nil]];
+
+    priceAnnotation.rotation = M_PI /2;
+
+    
+
+    
+
+    priceAnnotation.contentLayer = textLayer;
+
+    
+
+    [plot.graph.plotAreaFrame.plotArea addAnnotation:priceAnnotation];
