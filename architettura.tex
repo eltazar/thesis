@@ -119,6 +119,8 @@ Per migliorare le prestazioni e limitare il traffico di rete generato durante l'
 \caption{Diagramma delle classi per il caching dei dati}
 \end{figure}
 
+I controller possono richiamare l'oggetto singleton \texttt{SharedDataHandler} e attraverso esso salvare in variabili temporanee i dati che non necessitano di essere riscaricati dalla rete durante una sessione .
+
 \subsection{Autenticazione e sicurezza dei dati}
 L'applicazione prevede un sistema di autenticazione ai servizi basata su livelli. In particolare sono previsti tre livelli di autenticazione:
 \begin{itemize}
@@ -143,7 +145,7 @@ A tal fine è stato implementato un oggetto singleton, il \texttt{SecurityManage
 \includegraphics[scale=0.70]{architettura/securityClass.png}
 \caption{Diagramma delle classi relative alla sicurezza}
 \end{figure}
-
+\newpage
 \subsection{Controller principali}
 Di seguito è riportato il diagramma delle classi rappresentanti i controller principali creati durante la progettazione e lo sviluppo. Per semplicità di esposizione sono stati rappresentati solo i nomi dei controller e le relazioni tra essi.
 \newline
@@ -153,11 +155,24 @@ A titolo esemplificativo nel diagramma si può notare che il \texttt{BaseViewCon
 In particolare uno dei compiti principali di questo controller è quello di creare il controller che gestisce l'interfaccia e la logica per il login ai servizi (\texttt{LoginViewController}) e di implementare i metodi nel  protocollo \texttt{LoginViewControllerProtocol} dichiarato dallo stesso LoginViewController. Sarà quindi compito del LoginViewController  lanciare il processo di login e comunicare al BaseViewController l'esito dell'operazione attraverso il protocollo descritto precedentemente; così facendo il BaseViewController sarà in grado di effettuare l'aggiornamento dello stato dell'interfaccia.
 
 
-\newpage
-\begin{landscape}
+ \newpage
+% \begin{landscape}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[scale=0.70]{architettura/controllersClass.png}
+\includegraphics[scale=0.65]{architettura/controllersNew.png}
 \caption{Diagramma delle classi controller}
+\end{figure}
+% \end{landscape}
+
+
+
+\section{Diagramma di sequenza}
+
+Di seguito è riportato un esempio di diagramma di sequenza relativo allo scenario in cui un utente richieda la lista dei conti e delle carte a lui registrate; in tale diagramma saranno evidenziati le sequenze di messaggi scambiati tra le entità che entrano in gioco durante il processo di recupero e visualizzazione delle informazioni. 
+ \begin{landscape}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.65]{architettura/sequence.png}
+\caption{Diagramma si sequenza per la visualizzazione della lista conti e carte}
 \end{figure}
 \end{landscape}

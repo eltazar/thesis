@@ -80,10 +80,6 @@ L'adozione di tali pattern durante la progettazione ha permesso di ottenere un'a
 \label{fig:comunicazione}
 \end{figure}
 
-\subsubsection{Caching dei dati}
-
-bla bla bla
-
 \newpage
 \section{Posizionamento di oggetti in uno spazio cartesiano}
 All'interno dell'applicazione è stato realizzato un algoritmo per il posizionamento di oggetti grafici in uno spazio cartesiano. Tali oggetti sono visualizzati come circonferenze all'interno dell'interfaccia grafica e sono utilizzati per riassumere i dati di un conto corrente o di una carta di credito (come importo, tipo di conto, ecc\dots).
@@ -195,6 +191,7 @@ La procedura \texttt{calculateOriginForBubbles} (listato \ref{algo:3}) inizia po
 
 Questo meccanismo permette di sfruttare tutta l'area a disposizione ricontrollando iterativamente gli spazi che avanzano dopo il posizionamento di una Bubble, in modo tale da ottenere una distribuzione uniforme degli oggetti.
 
+\newpage
 \begin{figure}[!htbp]
 \centering
 \includegraphics[scale=0.4]{dettagli/bubblesInView.png}
@@ -336,7 +333,7 @@ In tale grafico le barre sono state ridisegnate come bolle, in cui le ascisse di
 % \end{displaymath}
 
 Dove $point.y$ indica il valore del saldo della i-esima bolla, $MAX\_DIAMETER$ e $MIN\_DIAMETER$ indicano rispettivamente il diametro massimo e minimo che una bolla può assumere e $max$ rappresenta il valore massimo presente nell'insieme dei dati da rappresentare nel grafico.
-In questo modo è stato possibile ottenere una dimensione in scala delle bolle in modo tale da non occupare troppo spazio all'interno dello schermo e ottenendo quindi una visione omogenea dei dati.
+In questo modo è stato possibile ridimensionare le bolle in modo tale da non occupare troppo spazio all'interno dello schermo e ottenendo quindi una visione omogenea dei dati.
 \\\\
 Per disegnare le etichette verticali su ogni bolla è stata realizzata la seguente procedura:
 
